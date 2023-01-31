@@ -31,7 +31,7 @@ class BukkitCore : SuspendingJavaPlugin() {
                 return
             }
 
-        profileRegistry = ProfileRegistryImpl()
+        profileRegistry = ProfileRegistryImpl(rankRegistry)
 
         server.servicesManager.register(
             BukkitCoreAPI::class.java,
