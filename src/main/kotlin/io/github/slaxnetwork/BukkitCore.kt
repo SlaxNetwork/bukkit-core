@@ -23,15 +23,13 @@ class BukkitCore : SuspendingJavaPlugin() {
 
     override suspend fun onEnableAsync() {
         rankRegistry = RankRegistryImpl()
-        try {
-            rankRegistry.initialize()
-        } catch(ex: Exception) {
-            logger.severe("Unable to fetch ranks.")
-            ex.printStackTrace()
 
-            server.shutdown()
-            return
-        }
+        runCatching { rankRegistry.initialize() }
+            .onFailure {
+                logger.severe("Unable to fetch ranks, ${it.message}")
+                server.shutdown()
+                return
+            }
 
         profileRegistry = ProfileRegistryImpl()
 
