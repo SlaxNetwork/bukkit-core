@@ -1,7 +1,6 @@
 package io.github.slaxnetwork.profile
 
-import io.github.slaxnetwork.api.dto.Profile
-import io.github.slaxnetwork.registries.ProfileRegistry
+import io.github.slaxnetwork.api.dto.profile.Profile
 import java.util.*
 
 class ProfileRegistryImpl : ProfileRegistry {

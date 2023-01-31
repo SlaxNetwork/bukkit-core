@@ -2,7 +2,7 @@ package io.github.slaxnetwork.listeners
 
 import io.github.slaxnetwork.BukkitCore
 import io.github.slaxnetwork.api.wrapper.ProfileAPI
-import io.github.slaxnetwork.api.dto.Profile
+import io.github.slaxnetwork.api.dto.profile.Profile
 import io.github.slaxnetwork.mm
 import kotlinx.coroutines.runBlocking
 import org.bukkit.event.EventHandler

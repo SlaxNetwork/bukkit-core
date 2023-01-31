@@ -1,7 +1,7 @@
 package io.github.slaxnetwork
 
-import io.github.slaxnetwork.api.dto.Profile
-import io.github.slaxnetwork.registries.ProfileRegistry
+import io.github.slaxnetwork.api.dto.profile.Profile
+import io.github.slaxnetwork.profile.ProfileRegistry
 import java.util.*
 
 class BukkitCoreAPIImpl(
