@@ -18,7 +18,6 @@ class BukkitCore : SuspendingJavaPlugin() {
         private set
 
     override suspend fun onLoadAsync() {
-        mm = MiniMessage.miniMessage()
     }
 
     override suspend fun onEnableAsync() {
@@ -52,5 +51,4 @@ class BukkitCore : SuspendingJavaPlugin() {
 /**
  * Public [MiniMessage] instance.
  */
-lateinit var mm: MiniMessage
-    private set
+val mm: MiniMessage = MiniMessage.miniMessage()
