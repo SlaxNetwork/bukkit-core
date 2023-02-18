@@ -2,35 +2,48 @@ package io.github.slaxnetwork
 
 import com.github.shynixn.mccoroutine.bukkit.SuspendingJavaPlugin
 import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
+import io.github.slaxnetwork.icon.IconRegistry
+import io.github.slaxnetwork.icon.IconRegistryImpl
+import io.github.slaxnetwork.icon.createIconTagResolver
+import io.github.slaxnetwork.kyouko.KyoukoAPI
 import io.github.slaxnetwork.listeners.PlayerLoginListener
 import io.github.slaxnetwork.profile.ProfileRegistryImpl
 import io.github.slaxnetwork.profile.ProfileRegistry
-import io.github.slaxnetwork.rank.RankRegistry
-import io.github.slaxnetwork.rank.RankRegistryImpl
 import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import org.bukkit.plugin.ServicePriority
 
 class BukkitCore : SuspendingJavaPlugin() {
+    lateinit var kyouko: KyoukoAPI
+        private set
+
     lateinit var profileRegistry: ProfileRegistry
         private set
 
-    lateinit var rankRegistry: RankRegistry
+    lateinit var iconRegistry: IconRegistry
         private set
 
     override suspend fun onLoadAsync() {
+        kyouko = KyoukoAPI(System.getenv("API_SECRET") ?: "KYOUKO")
     }
 
     override suspend fun onEnableAsync() {
-        rankRegistry = RankRegistryImpl()
+        profileRegistry = ProfileRegistryImpl()
+        iconRegistry = IconRegistryImpl(kyouko.icons)
 
-        runCatching { rankRegistry.initialize() }
+        runCatching { iconRegistry.initialize() }
             .onFailure {
-                logger.severe("Unable to fetch ranks, ${it.message}")
+                logger.severe("Unable to fetch icons, ${it.message}")
                 server.shutdown()
                 return
             }
 
-        profileRegistry = ProfileRegistryImpl(rankRegistry)
+        mm = MiniMessage.builder()
+            .tags(TagResolver.resolver(
+                TagResolver.standard(),
+                createIconTagResolver(iconRegistry)
+            ))
+            .build()
 
         server.servicesManager.register(
             BukkitCoreAPI::class.java,
@@ -40,7 +53,7 @@ class BukkitCore : SuspendingJavaPlugin() {
         )
 
         setOf(
-            PlayerLoginListener(this)
+            PlayerLoginListener(profileRegistry, kyouko)
         ).forEach { server.pluginManager.registerSuspendingEvents(it, this) }
     }
 
@@ -51,4 +64,5 @@ class BukkitCore : SuspendingJavaPlugin() {
 /**
  * Public [MiniMessage] instance.
  */
-val mm: MiniMessage = MiniMessage.miniMessage()
+lateinit var mm: MiniMessage
+    private set

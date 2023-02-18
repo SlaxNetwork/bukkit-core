@@ -1,9 +1,9 @@
 package io.github.slaxnetwork.listeners
 
-import io.github.slaxnetwork.BukkitCore
-import io.github.slaxnetwork.api.wrapper.ProfileAPI
-import io.github.slaxnetwork.api.dto.profile.Profile
+import io.github.slaxnetwork.kyouko.KyoukoAPI
+import io.github.slaxnetwork.kyouko.models.profile.Profile
 import io.github.slaxnetwork.mm
+import io.github.slaxnetwork.profile.ProfileRegistry
 import kotlinx.coroutines.runBlocking
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -12,13 +12,14 @@ import org.bukkit.event.player.PlayerLoginEvent
 import java.util.UUID
 
 class PlayerLoginListener(
-    private val plugin: BukkitCore
+    private val profileRegistry: ProfileRegistry,
+    private val kyouko: KyoukoAPI
 ) : Listener {
     private val pendingConnections = mutableMapOf<UUID, Profile>()
 
     @EventHandler
     suspend fun onPlayerPreLogin(ev: AsyncPlayerPreLoginEvent) = runBlocking {
-        val profile = ProfileAPI.getProfileByUUID(ev.uniqueId)
+        val profile = kyouko.profiles.findByUUID(ev.uniqueId)
             .getOrNull()
 
         if(profile == null) {
@@ -44,7 +45,7 @@ class PlayerLoginListener(
             return
         }
 
-        plugin.profileRegistry.add(profile)
+        profileRegistry.add(profile)
 
         pendingConnections.remove(ev.player.uniqueId)
     }

@@ -21,7 +21,7 @@ allprojects {
     }
 
     dependencies {
-        implementation("io.github.slaxnetwork:kyouko-api:0.0.1")
+        implementation("io.github.slaxnetwork:kyouko-wrapper:0.0.1")
 
         compileOnly("org.purpurmc.purpur:purpur-api:1.19.3-R0.1-SNAPSHOT")
     }

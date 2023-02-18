@@ -1,6 +1,6 @@
 package io.github.slaxnetwork
 
-import io.github.slaxnetwork.api.dto.Profile
+import io.github.slaxnetwork.kyouko.models.profile.Profile
 import java.util.UUID
 
 interface BukkitCoreAPI {
