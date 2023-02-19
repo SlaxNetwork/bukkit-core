@@ -6,12 +6,18 @@ import io.github.slaxnetwork.icon.IconRegistry
 import io.github.slaxnetwork.icon.IconRegistryImpl
 import io.github.slaxnetwork.icon.createIconTagResolver
 import io.github.slaxnetwork.kyouko.KyoukoAPI
+import io.github.slaxnetwork.listeners.AsyncPlayerChatListener
 import io.github.slaxnetwork.listeners.PlayerLoginListener
 import io.github.slaxnetwork.profile.ProfileRegistryImpl
 import io.github.slaxnetwork.profile.ProfileRegistry
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.minimessage.Context
 import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.minimessage.tag.Tag
+import net.kyori.adventure.text.minimessage.tag.resolver.ArgumentQueue
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import org.bukkit.plugin.ServicePriority
+import javax.swing.text.html.parser.TagElement
 
 class BukkitCore : SuspendingJavaPlugin() {
     lateinit var kyouko: KyoukoAPI
@@ -38,12 +44,8 @@ class BukkitCore : SuspendingJavaPlugin() {
                 return
             }
 
-        mm = MiniMessage.builder()
-            .tags(TagResolver.resolver(
-                TagResolver.standard(),
-                createIconTagResolver(iconRegistry)
-            ))
-            .build()
+        mm = SlaxMiniMessageBuilder(iconRegistry)
+            .createInstance()
 
         server.servicesManager.register(
             BukkitCoreAPI::class.java,
@@ -53,8 +55,18 @@ class BukkitCore : SuspendingJavaPlugin() {
         )
 
         setOf(
+            AsyncPlayerChatListener(profileRegistry),
             PlayerLoginListener(profileRegistry, kyouko)
         ).forEach { server.pluginManager.registerSuspendingEvents(it, this) }
+    }
+
+    fun listen(args: ArgumentQueue, ctx: Context): Tag {
+        val id = args.popOr("requires thing")
+            .value()
+
+        return Tag.selfClosingInserting(Component.text(
+            iconRegistry.mappedIcons[id] ?: 'a'
+        ))
     }
 
     override suspend fun onDisableAsync() {

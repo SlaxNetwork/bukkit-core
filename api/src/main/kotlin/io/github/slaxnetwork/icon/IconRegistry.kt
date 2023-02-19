@@ -7,6 +7,4 @@ interface IconRegistry {
     val mappedIcons: Map<String, Char>
 
     suspend fun initialize()
-
-//    fun addAll(icons: Set<Icon>): Set<Icon>
 }
