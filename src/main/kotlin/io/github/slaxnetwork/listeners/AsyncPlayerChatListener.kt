@@ -32,7 +32,7 @@ class AsyncPlayerChatListener(
 
     private class SlaxChatRenderer(
         private val profile: Profile
-    ): ChatRenderer {
+    ) : ChatRenderer {
         override fun render(
             source: Player,
             sourceDisplayName: Component,

@@ -1,7 +1,7 @@
 package io.github.slaxnetwork.listeners
 
-import io.github.slaxnetwork.kyouko.KyoukoAPI
 import io.github.slaxnetwork.kyouko.models.profile.Profile
+import io.github.slaxnetwork.kyouko.services.v1.ProfileService
 import io.github.slaxnetwork.mm
 import io.github.slaxnetwork.profile.ProfileRegistry
 import kotlinx.coroutines.runBlocking
@@ -13,13 +13,13 @@ import java.util.UUID
 
 class PlayerLoginListener(
     private val profileRegistry: ProfileRegistry,
-    private val kyouko: KyoukoAPI
+    private val profileService: ProfileService
 ) : Listener {
     private val pendingConnections = mutableMapOf<UUID, Profile>()
 
     @EventHandler
     suspend fun onPlayerPreLogin(ev: AsyncPlayerPreLoginEvent) = runBlocking {
-        val profile = kyouko.profiles.findByUUID(ev.uniqueId)
+        val profile = profileService.findByUUID(ev.uniqueId)
             .getOrNull()
 
         if(profile == null) {

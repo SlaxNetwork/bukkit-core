@@ -6,10 +6,14 @@ import io.github.slaxnetwork.icon.IconRegistry
 import io.github.slaxnetwork.icon.IconRegistryImpl
 import io.github.slaxnetwork.icon.createIconTagResolver
 import io.github.slaxnetwork.kyouko.KyoukoAPI
+import io.github.slaxnetwork.kyouko.models.service.RouteError
 import io.github.slaxnetwork.listeners.AsyncPlayerChatListener
 import io.github.slaxnetwork.listeners.PlayerLoginListener
+import io.github.slaxnetwork.listeners.PlayerQuitListener
 import io.github.slaxnetwork.profile.ProfileRegistryImpl
 import io.github.slaxnetwork.profile.ProfileRegistry
+import io.github.slaxnetwork.rank.RankRegistry
+import io.github.slaxnetwork.rank.RankRegistryImpl
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.Context
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -26,6 +30,9 @@ class BukkitCore : SuspendingJavaPlugin() {
     lateinit var profileRegistry: ProfileRegistry
         private set
 
+    lateinit var rankRegistry: RankRegistry
+        private set
+
     lateinit var iconRegistry: IconRegistry
         private set
 
@@ -34,15 +41,19 @@ class BukkitCore : SuspendingJavaPlugin() {
     }
 
     override suspend fun onEnableAsync() {
+        rankRegistry = RankRegistryImpl(kyouko.ranks)
         profileRegistry = ProfileRegistryImpl()
         iconRegistry = IconRegistryImpl(kyouko.icons)
 
-        runCatching { iconRegistry.initialize() }
-            .onFailure {
-                logger.severe("Unable to fetch icons, ${it.message}")
-                server.shutdown()
-                return
-            }
+        try {
+            rankRegistry.initialize()
+            iconRegistry.initialize()
+        } catch(ex: Exception) {
+            logger.severe("Unable to initialize a service.")
+            ex.printStackTrace()
+            server.shutdown()
+            return
+        }
 
         mm = SlaxMiniMessageBuilder(iconRegistry)
             .createInstance()
@@ -56,17 +67,9 @@ class BukkitCore : SuspendingJavaPlugin() {
 
         setOf(
             AsyncPlayerChatListener(profileRegistry),
-            PlayerLoginListener(profileRegistry, kyouko)
+            PlayerLoginListener(profileRegistry, kyouko.profiles),
+            PlayerQuitListener(profileRegistry)
         ).forEach { server.pluginManager.registerSuspendingEvents(it, this) }
-    }
-
-    fun listen(args: ArgumentQueue, ctx: Context): Tag {
-        val id = args.popOr("requires thing")
-            .value()
-
-        return Tag.selfClosingInserting(Component.text(
-            iconRegistry.mappedIcons[id] ?: 'a'
-        ))
     }
 
     override suspend fun onDisableAsync() {
