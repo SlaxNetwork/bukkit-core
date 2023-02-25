@@ -2,15 +2,16 @@ package io.github.slaxnetwork
 
 import io.github.slaxnetwork.icon.IconRegistry
 import io.github.slaxnetwork.language.LanguageProvider
+import io.github.slaxnetwork.minimessage.SlaxMiniMessageBuilder
 import io.github.slaxnetwork.minimessage.tags.IconTags
 import io.github.slaxnetwork.minimessage.tags.LanguageTags
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 
-class SlaxMiniMessageBuilder(
+class SlaxMiniMessageBuilderImpl(
     iconRegistry: IconRegistry,
     languageProvider: LanguageProvider
-) {
+): SlaxMiniMessageBuilder {
     private val iconTagHandler = IconTags(iconRegistry)
     private val languageTagHandler = LanguageTags(languageProvider)
 
@@ -18,14 +19,23 @@ class SlaxMiniMessageBuilder(
      * Create a new [MiniMessage] instance with all TagResolvers.
      */
     fun createInstance(): MiniMessage {
+        return getBaseMiniMessageBuilder()
+            .build()
+    }
+
+    override fun getBaseMiniMessageBuilder(): MiniMessage.Builder {
         val builder = MiniMessage.builder()
 
-        builder.tags(TagResolver.resolver(
+        builder.tags(getResolvers())
+
+        return builder
+    }
+
+    override fun getResolvers(): TagResolver {
+        return TagResolver.resolver(
             TagResolver.standard(),
             TagResolver.resolver("icon", iconTagHandler::iconTag),
             TagResolver.resolver("message", languageTagHandler::messageTag)
-        ))
-
-        return builder.build()
+        )
     }
 }

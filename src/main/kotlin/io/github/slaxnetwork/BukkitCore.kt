@@ -57,7 +57,7 @@ class BukkitCore : SuspendingJavaPlugin() {
         languageProvider = LanguageProviderImpl()
         languageProvider.register()
 
-        mm = SlaxMiniMessageBuilder(iconRegistry, languageProvider)
+        mm = SlaxMiniMessageBuilderImpl(iconRegistry, languageProvider)
             .createInstance()
 
         server.servicesManager.register(
