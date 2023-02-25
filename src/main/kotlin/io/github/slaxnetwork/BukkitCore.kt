@@ -62,7 +62,7 @@ class BukkitCore : SuspendingJavaPlugin() {
 
         server.servicesManager.register(
             BukkitCoreAPI::class.java,
-            BukkitCoreAPIImpl(profileRegistry, languageProvider),
+            BukkitCoreAPIImpl(profileRegistry, iconRegistry, languageProvider),
             this,
             ServicePriority.Normal
         )
