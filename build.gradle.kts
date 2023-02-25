@@ -8,7 +8,7 @@ plugins {
 
 allprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
+//    apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
     group = "io.github.slaxnetwork.bukkitcore"
     version = "0.0.1"
@@ -30,6 +30,8 @@ allprojects {
 dependencies {
     implementation(project(":api"))
 
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
     implementation("com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:2.10.0")
@@ -43,4 +45,7 @@ bukkit {
     apiVersion = "1.19"
     authors = listOf("Tech")
     main = "io.github.slaxnetwork.BukkitCore"
+    commands {
+        register("language")
+    }
 }

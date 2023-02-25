@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "id": "en_us",
+    "name": "English",
+    "contributors": ["Tech"],
+    "type": "lobby"
+  },
+
+  "messages": {
+    "server": {
+      "connect": "Hello, World!"
+    }
+  }
+}
