@@ -27,8 +27,9 @@ class LanguageCommand(
             ?: return true
 
         sender.sendMessage(mm.deserialize(
-            "<message>",
-            ProfileTags.translateText("server.connect", profile)
+            "<text>",
+            ProfileTags.translateText("server.connect", profile),
+            ProfileTags.coloredName(sender.name, profile)
         ))
 
         return true

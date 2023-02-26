@@ -12,8 +12,8 @@ class LanguageTags(
      * Converts an icon tag into its corresponding unicode character to be
      * handled by the resource pack.
      */
-    fun messageTag(args: ArgumentQueue, ctx: Context): Tag {
-        val arguments = args.popOr("The <message> tag requires an id to be passed.")
+    fun textTag(args: ArgumentQueue, ctx: Context): Tag {
+        val arguments = args.popOr("The <text> tag requires an id to be passed.")
             .value()
 
         val sepIndex = arguments.indexOf('.')

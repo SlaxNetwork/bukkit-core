@@ -23,8 +23,8 @@ object ProfileTags {
 
     fun translateText(id: String, languageId: String): TagResolver {
         return Placeholder.parsed(
-            "message",
-            "<message:${languageId}.${id}>"
+            "text",
+            "<text:${languageId}.${id}>"
         )
     }
 }

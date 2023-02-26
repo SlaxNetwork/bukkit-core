@@ -35,7 +35,7 @@ class SlaxMiniMessageBuilderImpl(
         return TagResolver.resolver(
             TagResolver.standard(),
             TagResolver.resolver("icon", iconTagHandler::iconTag),
-            TagResolver.resolver("message", languageTagHandler::messageTag)
+            TagResolver.resolver("text", languageTagHandler::textTag)
         )
     }
 }
