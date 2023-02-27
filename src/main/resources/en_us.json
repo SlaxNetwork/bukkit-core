@@ -7,8 +7,13 @@
   },
 
   "messages": {
-    "server": {
-      "connect": "Hello, World!"
+    "commands": {
+      "language": {
+        "usage": "<red>Usage: /language <language_id>.",
+        "invalid_language": "<red>Please specify a valid language.",
+        "success": "<green>You have updated your language to <white><language_id><green>.",
+        "error": "<red>There was an error while updating your language, <white><error_message><red>."
+      }
     }
   }
 }

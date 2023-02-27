@@ -22,4 +22,8 @@ class ProfileRegistryImpl : ProfileRegistry {
             it.uuid == uuid
         }
     }
+
+    override fun getFromUUID(uuid: UUID): Profile? {
+        return mappedProfiles[uuid]
+    }
 }

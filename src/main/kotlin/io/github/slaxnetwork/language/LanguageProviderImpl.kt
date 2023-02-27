@@ -30,6 +30,8 @@ class LanguageProviderImpl : LanguageProvider {
                 ?: throw NullPointerException("meta null")
             val meta = Json.decodeFromJsonElement<LanguageFileMeta>(metaObj)
 
+            _languages.add(meta.id)
+
             val messages = obj["messages"]?.jsonObject
                 ?: throw NullPointerException("messages null")
 

@@ -67,7 +67,7 @@ class BukkitCore : SuspendingJavaPlugin() {
             ServicePriority.Normal
         )
 
-        getCommand("language")?.setSuspendingExecutor(LanguageCommand(profileRegistry, kyouko.profiles))
+        getCommand("language")?.setSuspendingExecutor(LanguageCommand(profileRegistry, languageProvider, kyouko.profiles))
 
         setOf(
             AsyncPlayerChatListener(profileRegistry),
