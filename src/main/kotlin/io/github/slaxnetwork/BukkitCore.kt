@@ -53,11 +53,9 @@ class BukkitCore : SuspendingJavaPlugin() {
         mm = SlaxMiniMessageBuilder(iconRegistry)
             .createInstance()
 
-        testBukkitCoreImpl = BukkitCoreAPIImpl(profileRegistry, kyouko.servers)
-
         server.servicesManager.register(
             BukkitCoreAPI::class.java,
-            testBukkitCoreImpl,
+            BukkitCoreAPIImpl(profileRegistry, kyouko.servers),
             this,
             ServicePriority.Normal
         )
@@ -72,7 +70,6 @@ class BukkitCore : SuspendingJavaPlugin() {
     }
 
     override suspend fun onDisableAsync() {
-        testBukkitCoreImpl.unregisterServer()
     }
 }
 
