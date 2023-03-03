@@ -6,6 +6,8 @@ import org.bukkit.plugin.ServicesManager
 import java.util.UUID
 
 interface BukkitCoreAPI {
+    val instanceId: String
+
     /**
      * Every connected player [Profile].
      */

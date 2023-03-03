@@ -59,15 +59,12 @@ class BukkitCore : SuspendingJavaPlugin() {
         languageProvider = LanguageProviderImpl()
         languageProvider.register()
 
-        languageProvider = LanguageProviderImpl()
-        languageProvider.register()
-
         mm = SlaxMiniMessageBuilderImpl(iconRegistry, languageProvider)
             .createInstance()
 
         server.servicesManager.register(
             BukkitCoreAPI::class.java,
-            BukkitCoreAPIImpl(profileRegistry, iconRegistry, languageProvider),
+            BukkitCoreAPIImpl(profileRegistry, iconRegistry, languageProvider, kyouko.servers),
             this,
             ServicePriority.Normal
         )
@@ -76,7 +73,7 @@ class BukkitCore : SuspendingJavaPlugin() {
 
         setOf(
             AsyncPlayerChatListener(profileRegistry),
-            PlayerLoginListener(profileRegistry, kyouko.profiles),
+            PlayerLoginListener(profileRegistry, kyouko.profiles,),
             PlayerQuitListener(profileRegistry)
         ).forEach { server.pluginManager.registerSuspendingEvents(it, this) }
     }
