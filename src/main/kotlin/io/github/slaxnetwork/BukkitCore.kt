@@ -28,9 +28,6 @@ class BukkitCore : SuspendingJavaPlugin() {
     lateinit var iconRegistry: IconRegistry
         private set
 
-    lateinit var testBukkitCoreImpl: BukkitCoreAPIImpl
-        private set
-
     override suspend fun onLoadAsync() {
         kyouko = KyoukoAPI(System.getenv("API_SECRET") ?: "KYOUKO")
     }
@@ -65,8 +62,6 @@ class BukkitCore : SuspendingJavaPlugin() {
             PlayerLoginListener(profileRegistry, kyouko.profiles),
             PlayerQuitListener(profileRegistry)
         ).forEach { server.pluginManager.registerSuspendingEvents(it, this) }
-
-        testBukkitCoreImpl.registerServer("127.0.0.1", 25565, "lobby")
     }
 
     override suspend fun onDisableAsync() {

@@ -12,9 +12,8 @@ class BukkitCoreAPIImpl(
     override lateinit var instanceId: String
         private set
 
-    override fun getProfile(uuid: UUID): Profile? {
-        return profileRegistry.mappedProfiles[uuid]
-    }
+    override val profiles: Map<UUID, Profile>
+        get() = profileRegistry.mappedProfiles
 
     override suspend fun registerServer(ip: String, port: Int, type: String): Result<String> {
         return serverService.registerInstance(ip, port, type)
