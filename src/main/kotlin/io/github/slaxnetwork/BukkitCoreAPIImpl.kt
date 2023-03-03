@@ -12,8 +12,19 @@ class BukkitCoreAPIImpl(
     private val iconRegistry: IconRegistry,
     private val languageProvider: LanguageProvider
 ): BukkitCoreAPI {
-    override fun getProfile(uuid: UUID): Profile? {
-        return profileRegistry.mappedProfiles[uuid]
+    override lateinit var instanceId: String
+        private set
+
+    override val profiles: Map<UUID, Profile>
+        get() = profileRegistry.mappedProfiles
+
+    override suspend fun registerServer(ip: String, port: Int, type: String): Result<String> {
+        return serverService.registerInstance(ip, port, type)
+            .onSuccess { instanceId = it }
+    }
+
+    override suspend fun unregisterServer(): Result<Unit> {
+        return serverService.unregisterInstance(instanceId)
     }
 
     override fun getBaseMiniMessageBuilder(): MiniMessage.Builder {

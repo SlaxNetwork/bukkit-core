@@ -2,11 +2,13 @@ package io.github.slaxnetwork
 
 import com.github.shynixn.mccoroutine.bukkit.SuspendingJavaPlugin
 import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
-import com.github.shynixn.mccoroutine.bukkit.setSuspendingExecutor
-import io.github.slaxnetwork.commands.player.LanguageCommand
 import io.github.slaxnetwork.icon.IconRegistry
 import io.github.slaxnetwork.icon.IconRegistryImpl
+import com.github.shynixn.mccoroutine.bukkit.setSuspendingExecutor
+import io.github.slaxnetwork.commands.player.LanguageCommand
+import io.github.slaxnetwork.icon.createIconTagResolver
 import io.github.slaxnetwork.kyouko.KyoukoAPI
+import io.github.slaxnetwork.kyouko.models.service.RouteError
 import io.github.slaxnetwork.language.LanguageProvider
 import io.github.slaxnetwork.language.LanguageProviderImpl
 import io.github.slaxnetwork.listeners.AsyncPlayerChatListener
@@ -53,6 +55,9 @@ class BukkitCore : SuspendingJavaPlugin() {
             server.shutdown()
             return
         }
+
+        languageProvider = LanguageProviderImpl()
+        languageProvider.register()
 
         languageProvider = LanguageProviderImpl()
         languageProvider.register()
