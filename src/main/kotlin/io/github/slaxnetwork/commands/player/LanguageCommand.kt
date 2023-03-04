@@ -6,6 +6,7 @@ import io.github.slaxnetwork.bukkitcore.language.LanguageProvider
 import io.github.slaxnetwork.bukkitcore.minimessage.tags.ProfileTags
 import io.github.slaxnetwork.mm
 import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
+import io.github.slaxnetwork.bukkitcore.utils.get
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -26,7 +27,7 @@ class LanguageCommand(
             return true
         }
 
-        val profile = profileRegistry.getFromPlayer(sender)
+        val profile = profileRegistry.profiles[sender]
             ?: return true
 
         if(args.isEmpty()) {

@@ -19,7 +19,7 @@ class BukkitCoreAPIImpl(
         private set
 
     override val profiles: Map<UUID, Profile>
-        get() = profileRegistry.mappedProfiles
+        get() = profileRegistry.profiles
 
     override suspend fun registerServer(ip: String, port: Int, type: String): Result<String> {
         return serverService.registerInstance(ip, port, type)

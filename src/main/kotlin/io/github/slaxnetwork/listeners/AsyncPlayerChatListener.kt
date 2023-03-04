@@ -19,7 +19,7 @@ class AsyncPlayerChatListener(
 ) : Listener {
     @EventHandler
     fun onPlayerChat(ev: AsyncChatEvent) {
-        val profile = profileRegistry.mappedProfiles[ev.player.uniqueId]
+        val profile = profileRegistry.profiles[ev.player.uniqueId]
             ?: return
 
         ev.renderer(SlaxChatRenderer(profile))

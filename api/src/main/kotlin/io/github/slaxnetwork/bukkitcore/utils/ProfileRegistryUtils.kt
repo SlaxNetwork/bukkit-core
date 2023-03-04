@@ -5,10 +5,8 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
-operator fun ProfileMap.get(player: Player) =
+operator fun Map<UUID, Profile>.get(player: Player) =
     this[player.uniqueId]
 
-operator fun ProfileMap.get(sender: CommandSender): Profile? =
+operator fun Map<UUID, Profile>.get(sender: CommandSender): Profile? =
     if(sender is Player) this[sender.uniqueId] else null
-
-private typealias ProfileMap = Map<UUID, Profile>
