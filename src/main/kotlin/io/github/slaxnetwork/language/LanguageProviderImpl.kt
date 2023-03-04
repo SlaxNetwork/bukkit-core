@@ -1,5 +1,6 @@
 package io.github.slaxnetwork.language
 
+import io.github.slaxnetwork.bukkitcore.language.LanguageProvider
 import kotlinx.serialization.json.*
 import java.io.File
 import java.util.Collections

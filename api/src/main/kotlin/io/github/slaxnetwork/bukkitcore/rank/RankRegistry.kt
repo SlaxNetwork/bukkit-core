@@ -1,4 +1,4 @@
-package io.github.slaxnetwork.rank
+package io.github.slaxnetwork.bukkitcore.rank
 
 import io.github.slaxnetwork.kyouko.models.rank.Rank
 

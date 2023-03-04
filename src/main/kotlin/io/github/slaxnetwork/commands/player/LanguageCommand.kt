@@ -2,10 +2,10 @@ package io.github.slaxnetwork.commands.player
 
 import com.github.shynixn.mccoroutine.bukkit.SuspendingCommandExecutor
 import io.github.slaxnetwork.kyouko.services.v1.ProfileService
-import io.github.slaxnetwork.language.LanguageProvider
-import io.github.slaxnetwork.minimessage.tags.ProfileTags
+import io.github.slaxnetwork.bukkitcore.language.LanguageProvider
+import io.github.slaxnetwork.bukkitcore.minimessage.tags.ProfileTags
 import io.github.slaxnetwork.mm
-import io.github.slaxnetwork.profile.ProfileRegistry
+import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender

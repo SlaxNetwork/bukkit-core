@@ -3,7 +3,7 @@ package io.github.slaxnetwork.listeners
 import io.github.slaxnetwork.kyouko.models.profile.Profile
 import io.github.slaxnetwork.kyouko.services.v1.ProfileService
 import io.github.slaxnetwork.mm
-import io.github.slaxnetwork.profile.ProfileRegistry
+import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import kotlinx.coroutines.runBlocking
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

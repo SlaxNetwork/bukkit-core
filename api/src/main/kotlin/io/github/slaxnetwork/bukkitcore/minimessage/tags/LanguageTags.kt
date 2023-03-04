@@ -1,6 +1,6 @@
-package io.github.slaxnetwork.minimessage.tags
+package io.github.slaxnetwork.bukkitcore.minimessage.tags
 
-import io.github.slaxnetwork.language.LanguageProvider
+import io.github.slaxnetwork.bukkitcore.language.LanguageProvider
 import net.kyori.adventure.text.minimessage.Context
 import net.kyori.adventure.text.minimessage.tag.Tag
 import net.kyori.adventure.text.minimessage.tag.resolver.ArgumentQueue

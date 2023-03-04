@@ -1,10 +1,11 @@
 package io.github.slaxnetwork
 
-import io.github.slaxnetwork.icon.IconRegistry
+import io.github.slaxnetwork.bukkitcore.BukkitCoreAPI
+import io.github.slaxnetwork.bukkitcore.icon.IconRegistry
 import io.github.slaxnetwork.kyouko.models.profile.Profile
 import io.github.slaxnetwork.kyouko.services.v1.ServerService
-import io.github.slaxnetwork.language.LanguageProvider
-import io.github.slaxnetwork.profile.ProfileRegistry
+import io.github.slaxnetwork.bukkitcore.language.LanguageProvider
+import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import net.kyori.adventure.text.minimessage.MiniMessage
 import java.util.*
 

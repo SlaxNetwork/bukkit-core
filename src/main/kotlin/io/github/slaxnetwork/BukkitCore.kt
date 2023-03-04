@@ -2,21 +2,20 @@ package io.github.slaxnetwork
 
 import com.github.shynixn.mccoroutine.bukkit.SuspendingJavaPlugin
 import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
-import io.github.slaxnetwork.icon.IconRegistry
+import io.github.slaxnetwork.bukkitcore.icon.IconRegistry
 import io.github.slaxnetwork.icon.IconRegistryImpl
 import com.github.shynixn.mccoroutine.bukkit.setSuspendingExecutor
+import io.github.slaxnetwork.bukkitcore.BukkitCoreAPI
 import io.github.slaxnetwork.commands.player.LanguageCommand
-import io.github.slaxnetwork.icon.createIconTagResolver
 import io.github.slaxnetwork.kyouko.KyoukoAPI
-import io.github.slaxnetwork.kyouko.models.service.RouteError
-import io.github.slaxnetwork.language.LanguageProvider
+import io.github.slaxnetwork.bukkitcore.language.LanguageProvider
 import io.github.slaxnetwork.language.LanguageProviderImpl
 import io.github.slaxnetwork.listeners.AsyncPlayerChatListener
 import io.github.slaxnetwork.listeners.PlayerLoginListener
 import io.github.slaxnetwork.listeners.PlayerQuitListener
 import io.github.slaxnetwork.profile.ProfileRegistryImpl
-import io.github.slaxnetwork.profile.ProfileRegistry
-import io.github.slaxnetwork.rank.RankRegistry
+import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
+import io.github.slaxnetwork.bukkitcore.rank.RankRegistry
 import io.github.slaxnetwork.rank.RankRegistryImpl
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.plugin.ServicePriority

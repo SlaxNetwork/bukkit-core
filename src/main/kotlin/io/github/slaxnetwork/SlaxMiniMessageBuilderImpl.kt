@@ -1,10 +1,10 @@
 package io.github.slaxnetwork
 
-import io.github.slaxnetwork.icon.IconRegistry
-import io.github.slaxnetwork.language.LanguageProvider
-import io.github.slaxnetwork.minimessage.SlaxMiniMessageBuilder
-import io.github.slaxnetwork.minimessage.tags.IconTags
-import io.github.slaxnetwork.minimessage.tags.LanguageTags
+import io.github.slaxnetwork.bukkitcore.icon.IconRegistry
+import io.github.slaxnetwork.bukkitcore.language.LanguageProvider
+import io.github.slaxnetwork.bukkitcore.minimessage.SlaxMiniMessageBuilder
+import io.github.slaxnetwork.bukkitcore.minimessage.tags.IconTags
+import io.github.slaxnetwork.bukkitcore.minimessage.tags.LanguageTags
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 

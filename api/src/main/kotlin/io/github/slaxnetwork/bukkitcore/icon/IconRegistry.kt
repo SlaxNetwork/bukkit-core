@@ -1,4 +1,4 @@
-package io.github.slaxnetwork.icon
+package io.github.slaxnetwork.bukkitcore.icon
 
 import io.github.slaxnetwork.kyouko.models.icon.Icon
 

@@ -1,5 +1,6 @@
 package io.github.slaxnetwork.profile
 
+import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import io.github.slaxnetwork.kyouko.models.profile.Profile
 import java.util.*
 

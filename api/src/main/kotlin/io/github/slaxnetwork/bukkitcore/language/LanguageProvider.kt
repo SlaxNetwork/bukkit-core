@@ -1,4 +1,4 @@
-package io.github.slaxnetwork.language
+package io.github.slaxnetwork.bukkitcore.language
 
 interface LanguageProvider {
     val languages: Set<String>

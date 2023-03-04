@@ -1,4 +1,4 @@
-package io.github.slaxnetwork.profile
+package io.github.slaxnetwork.bukkitcore.profile
 
 import io.github.slaxnetwork.kyouko.models.profile.Profile
 import org.bukkit.entity.Player

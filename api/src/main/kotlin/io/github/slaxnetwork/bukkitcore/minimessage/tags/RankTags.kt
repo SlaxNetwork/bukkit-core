@@ -1,4 +1,4 @@
-package io.github.slaxnetwork.minimessage.tags
+package io.github.slaxnetwork.bukkitcore.minimessage.tags
 
 import io.github.slaxnetwork.kyouko.models.rank.Rank
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder

@@ -1,6 +1,6 @@
-package io.github.slaxnetwork.minimessage.tags
+package io.github.slaxnetwork.bukkitcore.minimessage.tags
 
-import io.github.slaxnetwork.icon.IconRegistry
+import io.github.slaxnetwork.bukkitcore.icon.IconRegistry
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.Context
 import net.kyori.adventure.text.minimessage.tag.Tag

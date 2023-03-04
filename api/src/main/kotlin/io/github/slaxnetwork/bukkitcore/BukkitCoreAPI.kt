@@ -1,7 +1,7 @@
-package io.github.slaxnetwork
+package io.github.slaxnetwork.bukkitcore
 
 import io.github.slaxnetwork.kyouko.models.profile.Profile
-import io.github.slaxnetwork.profile.ProfileRegistry
+import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.plugin.ServicesManager
 import java.util.UUID

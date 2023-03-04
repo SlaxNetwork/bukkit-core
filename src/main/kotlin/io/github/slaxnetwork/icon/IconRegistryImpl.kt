@@ -1,5 +1,6 @@
 package io.github.slaxnetwork.icon
 
+import io.github.slaxnetwork.bukkitcore.icon.IconRegistry
 import io.github.slaxnetwork.kyouko.models.icon.Icon
 import io.github.slaxnetwork.kyouko.services.v1.IconService
 import java.util.Collections

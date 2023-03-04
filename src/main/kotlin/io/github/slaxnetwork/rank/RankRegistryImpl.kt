@@ -1,5 +1,6 @@
 package io.github.slaxnetwork.rank
 
+import io.github.slaxnetwork.bukkitcore.rank.RankRegistry
 import io.github.slaxnetwork.kyouko.models.rank.Rank
 import io.github.slaxnetwork.kyouko.services.v1.RankService
 import java.util.Collections

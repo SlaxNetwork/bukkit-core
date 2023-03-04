@@ -1,4 +1,4 @@
-package io.github.slaxnetwork.icon
+package io.github.slaxnetwork.bukkitcore.icon
 
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.tag.Tag
