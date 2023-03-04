@@ -6,11 +6,8 @@ import java.util.*
 class ProfileRegistryImpl : ProfileRegistry {
     private val _profiles = mutableSetOf<Profile>()
 
-    override val profiles: Set<Profile>
-        get() = Collections.unmodifiableSet(_profiles)
-
-    override val mappedProfiles: Map<UUID, Profile>
-        get() = profiles.associateBy { it.uuid }
+    override val profiles: Map<UUID, Profile>
+        get() = _profiles.associateBy { it.uuid }
 
     override fun add(profile: Profile): Profile {
         _profiles.add(profile)
@@ -21,9 +18,5 @@ class ProfileRegistryImpl : ProfileRegistry {
         _profiles.removeIf {
             it.uuid == uuid
         }
-    }
-
-    override fun getFromUUID(uuid: UUID): Profile? {
-        return mappedProfiles[uuid]
     }
 }
