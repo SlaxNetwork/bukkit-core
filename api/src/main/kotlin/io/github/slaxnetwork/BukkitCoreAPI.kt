@@ -1,12 +1,15 @@
 package io.github.slaxnetwork
 
 import io.github.slaxnetwork.kyouko.models.profile.Profile
+import io.github.slaxnetwork.profile.ProfileRegistry
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.plugin.ServicesManager
 import java.util.UUID
 
 interface BukkitCoreAPI {
     val instanceId: String
+
+    val profileRegistry: ProfileRegistry
 
     /**
      * Every connected player [Profile].

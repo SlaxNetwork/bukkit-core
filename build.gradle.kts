@@ -49,3 +49,7 @@ bukkit {
         register("language")
     }
 }
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}

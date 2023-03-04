@@ -9,7 +9,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage
 import java.util.*
 
 class BukkitCoreAPIImpl(
-    private val profileRegistry: ProfileRegistry,
+    override val profileRegistry: ProfileRegistry,
     private val iconRegistry: IconRegistry,
     private val languageProvider: LanguageProvider,
     private val serverService: ServerService
