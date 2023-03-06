@@ -12,7 +12,7 @@
         "usage": "<red>Gebruik: /language <language_id>.",
         "invalid_language": "<red>Gelieve een geldige taal in the voeren.",
         "success": "<green>Je hebt je taal geüpdatet naar <white><language_id><green>.",
-        "error": "<red>Er ging iets mis tijdens het updateten van je taal, <white><error_message><red>."
+        "error": "<red>Er ging iets mis tijdens het updaten van je taal, <white><error_message><red>."
       }
     }
   }
