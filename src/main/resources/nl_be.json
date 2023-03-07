@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "id": "nl_be",
+    "name": "Nederlands (België)",
+    "contributors": ["MrTibo"],
+    "type": "lobby"
+  },
+
+  "messages": {
+    "commands": {
+      "language": {
+        "usage": "<red>Gebruik: /language <language_id>.",
+        "invalid_language": "<red>Gelieve een geldige taal in the voeren.",
+        "success": "<green>Je hebt je taal geüpdatet naar <white><language_id><green>.",
+        "error": "<red>Er ging iets mis tijdens het updaten van je taal, <white><error_message><red>."
+      }
+    }
+  }
+}
