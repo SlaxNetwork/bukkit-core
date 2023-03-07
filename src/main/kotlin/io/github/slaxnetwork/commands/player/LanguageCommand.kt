@@ -52,6 +52,8 @@ class LanguageCommand(
         // Cache new language and update on quit.
         profileService.updateLanguage(sender.uniqueId, languageId)
             .onSuccess {
+                profile.settings.language = languageId
+
                 sender.sendMessage(mm.deserialize(
                     "<icon:symbol_success> <text>",
                     ProfileTags.translateText("commands.language.success", profile),
