@@ -37,7 +37,7 @@ class BukkitCore : SuspendingJavaPlugin() {
         private set
 
     override suspend fun onLoadAsync() {
-        kyouko = KyoukoAPI(System.getenv("API_SECRET") ?: "KYOUKO")
+        kyouko = KyoukoAPI(System.getProperty("API_SECRET") ?: "KYOUKO")
     }
 
     override suspend fun onEnableAsync() {
