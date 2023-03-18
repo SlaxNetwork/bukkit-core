@@ -21,9 +21,9 @@ allprojects {
     }
 
     dependencies {
-        compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
+        implementation("io.github.slaxnetwork:kyouko-wrapper:0.0.1")
 
-        compileOnly("org.purpurmc.purpur:purpur-api:1.19.3-R0.1-SNAPSHOT")
+        compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
     }
 }
 
