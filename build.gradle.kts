@@ -17,11 +17,11 @@ allprojects {
         mavenCentral()
         mavenLocal()
 
-        maven("https://repo.purpurmc.org/snapshots")
+        maven("https://repo.papermc.io/repository/maven-public/")
     }
 
     dependencies {
-        implementation("io.github.slaxnetwork:kyouko-wrapper:0.0.1")
+        compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
 
         compileOnly("org.purpurmc.purpur:purpur-api:1.19.3-R0.1-SNAPSHOT")
     }
@@ -32,10 +32,10 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
 
-    implementation("com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:2.10.0")
-    implementation("com.github.shynixn.mccoroutine:mccoroutine-bukkit-core:2.10.0")
+    implementation("com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:2.11.0")
+    implementation("com.github.shynixn.mccoroutine:mccoroutine-bukkit-core:2.11.0")
 
     implementation("net.kyori:adventure-api:4.12.0")
 }
