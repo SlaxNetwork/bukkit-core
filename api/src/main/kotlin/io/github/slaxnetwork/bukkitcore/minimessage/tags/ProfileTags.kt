@@ -15,15 +15,4 @@ object ProfileTags {
                 .text(name).color(TextColor.fromHexString(profile.rank.color))
             ))
     }
-
-    fun translateText(id: String, profile: Profile): TagResolver {
-        return translateText(id, profile.settings.language)
-    }
-
-    fun translateText(id: String, languageId: String): TagResolver {
-        return Placeholder.parsed(
-            "text",
-            "<text:${languageId}.${id}>"
-        )
-    }
 }

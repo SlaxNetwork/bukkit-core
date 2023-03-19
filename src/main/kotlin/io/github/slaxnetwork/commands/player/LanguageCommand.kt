@@ -3,7 +3,7 @@ package io.github.slaxnetwork.commands.player
 import com.github.shynixn.mccoroutine.bukkit.SuspendingCommandExecutor
 import io.github.slaxnetwork.kyouko.services.v1.ProfileService
 import io.github.slaxnetwork.bukkitcore.language.LanguageProvider
-import io.github.slaxnetwork.bukkitcore.minimessage.tags.ProfileTags
+import io.github.slaxnetwork.bukkitcore.minimessage.tags.LanguageTags
 import io.github.slaxnetwork.mm
 import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import io.github.slaxnetwork.bukkitcore.utils.get
@@ -33,7 +33,7 @@ class LanguageCommand(
         if(args.isEmpty()) {
             sender.sendMessage(mm.deserialize(
                 "<icon:symbol_error> <text>",
-                ProfileTags.translateText("commands.language.usage", profile)
+                LanguageTags.translateText("commands.language.usage", profile)
             ))
 
             return true
@@ -43,7 +43,7 @@ class LanguageCommand(
         if(!languageProvider.languages.contains(languageId)) {
             sender.sendMessage(mm.deserialize(
                 "<icon:symbol_error> <text>",
-                ProfileTags.translateText("commands.language.invalid_language", profile)
+                LanguageTags.translateText("commands.language.invalid_language", profile)
             ))
             return true
         }
@@ -56,14 +56,14 @@ class LanguageCommand(
 
                 sender.sendMessage(mm.deserialize(
                     "<icon:symbol_success> <text>",
-                    ProfileTags.translateText("commands.language.success", profile),
+                    LanguageTags.translateText("commands.language.success", profile),
                     Placeholder.unparsed("language_id", languageId)
                 ))
             }
             .onFailure {
                 sender.sendMessage(mm.deserialize(
                     "<icon:symbol_error> <text>",
-                    ProfileTags.translateText("commands.language.error", profile),
+                    LanguageTags.translateText("commands.language.error", profile),
                     Placeholder.unparsed("error_text", it.message ?: "No message specified.")
                 ))
             }
