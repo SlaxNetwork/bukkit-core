@@ -19,7 +19,7 @@ class IconTags(
 
         return Tag.selfClosingInserting(
             Component
-                .text(iconRegistry.mappedIcons[iconId] ?: UNICODE_WARNING_SYMBOL)
+                .text(iconRegistry.icons[iconId] ?: UNICODE_WARNING_SYMBOL)
         )
     }
 
