@@ -3,6 +3,7 @@ package io.github.slaxnetwork.icon
 import io.github.slaxnetwork.bukkitcore.icon.IconRegistry
 import io.github.slaxnetwork.kyouko.models.icon.Icon
 import kotlinx.serialization.json.*
+import org.bukkit.Bukkit
 import java.io.File
 import java.util.Collections
 
@@ -28,7 +29,7 @@ class IconRegistryImpl(
 
     private fun loadIcons(
         iconsObj: JsonObject,
-        prefix: String="."
+        prefix: String=""
     ) {
         for((k, v) in iconsObj.entries) {
             if(v is JsonPrimitive && v.isString) {
@@ -39,35 +40,8 @@ class IconRegistryImpl(
             }
 
             if(v is JsonObject) {
-                loadIcons(v, "${prefix}${k}.")
+                loadIcons(v, "${prefix}${k}_")
             }
         }
     }
-
-//    private fun loadIcons(
-//        languageId: String,
-//        messagesObj: JsonObject,
-//        prefix: String=""
-//    ) {
-//        // well we gotta init it at least.
-//        _messages[languageId] = mutableMapOf()
-//
-//        for((k, v) in messagesObj.entries) {
-//            if(v is JsonPrimitive && v.isString) {
-//                _messages[languageId]
-//                    ?.put(
-//                        if(prefix.isEmpty()) k
-//                        else "${prefix}${k}",
-//
-//                        v.content
-//                    )
-//
-//                continue
-//            }
-//
-//            if(v is JsonObject) {
-//                loadIcons(languageId, v, "${prefix}${k}.")
-//            }
-//        }
-//    }
 }
