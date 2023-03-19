@@ -44,7 +44,7 @@ class BukkitCore : SuspendingJavaPlugin() {
     override suspend fun onEnableAsync() {
         rankRegistry = RankRegistryImpl(kyouko.ranks)
         profileRegistry = ProfileRegistryImpl()
-        iconRegistry = IconRegistryImpl(File(dataFolder, "icons/icons.json"))
+        iconRegistry = IconRegistryImpl(File(server.worldContainer, "icons/icons.json"))
 
         try {
             rankRegistry.initialize()
