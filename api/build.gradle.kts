@@ -9,7 +9,7 @@ publishing {
     publications {
         create<MavenPublication>(project.name.toLowerCase()) {
             groupId = "io.github.slaxnetwork"
-            artifactId = "bukkit-core"
+            artifactId = "bukkit-core-api"
             version = "${project.version}"
 
             from(components["java"])
