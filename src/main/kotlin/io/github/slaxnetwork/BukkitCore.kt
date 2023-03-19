@@ -19,6 +19,7 @@ import io.github.slaxnetwork.bukkitcore.rank.RankRegistry
 import io.github.slaxnetwork.rank.RankRegistryImpl
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.plugin.ServicePriority
+import java.io.File
 
 class BukkitCore : SuspendingJavaPlugin() {
     lateinit var kyouko: KyoukoAPI
@@ -43,7 +44,7 @@ class BukkitCore : SuspendingJavaPlugin() {
     override suspend fun onEnableAsync() {
         rankRegistry = RankRegistryImpl(kyouko.ranks)
         profileRegistry = ProfileRegistryImpl()
-        iconRegistry = IconRegistryImpl(kyouko.icons)
+        iconRegistry = IconRegistryImpl(File(dataFolder, "icons/icons.json"))
 
         try {
             rankRegistry.initialize()
