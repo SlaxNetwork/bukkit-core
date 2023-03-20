@@ -40,11 +40,7 @@ class LanguageProviderImpl : LanguageProvider {
         }
     }
 
-    private fun loadMessagesFromLanguage(
-        languageId: String,
-        messagesObj: JsonObject,
-        prefix: String=""
-    ) {
+    private fun loadMessagesFromLanguage(languageId: String, messagesObj: JsonObject, prefix: String="") {
         // well we gotta init it at least.
         _messages[languageId] = mutableMapOf()
 

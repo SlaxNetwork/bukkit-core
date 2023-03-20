@@ -27,10 +27,7 @@ class IconRegistryImpl(
         loadIcons(obj)
     }
 
-    private fun loadIcons(
-        iconsObj: JsonObject,
-        prefix: String=""
-    ) {
+    private fun loadIcons(iconsObj: JsonObject, prefix: String="") {
         for((k, v) in iconsObj.entries) {
             if(v is JsonPrimitive && v.isString) {
                 _icons["${prefix}${k}"] = v.contentOrNull?.single()
