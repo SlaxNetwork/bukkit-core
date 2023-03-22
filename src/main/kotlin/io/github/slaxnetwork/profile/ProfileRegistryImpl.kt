@@ -20,4 +20,8 @@ class ProfileRegistryImpl : ProfileRegistry {
             it.uuid == uuid
         }
     }
+
+    override fun findByUUID(uuid: UUID): Profile? {
+        return profiles[uuid]
+    }
 }

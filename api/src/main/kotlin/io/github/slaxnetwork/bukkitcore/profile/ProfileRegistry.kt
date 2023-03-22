@@ -10,4 +10,6 @@ interface ProfileRegistry {
     fun add(profile: Profile): Profile
 
     fun remove(uuid: UUID)
+
+    fun findByUUID(uuid: UUID): Profile?
 }
