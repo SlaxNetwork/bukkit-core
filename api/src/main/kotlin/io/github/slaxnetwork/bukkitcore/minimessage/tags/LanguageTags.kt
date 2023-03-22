@@ -33,6 +33,21 @@ class LanguageTags(
     companion object {
         /**
          * Translate text for a player.
+         * If the profile provided is null then it'll default to using en_us
+         * @param id Message id.
+         * @param profile Profile to translate for.
+         */
+        @JvmName("translateTextNullableProfile")
+        fun translateText(id: String, profile: Profile?): TagResolver {
+            return if(profile == null) {
+                translateText("en_us", id)
+            } else {
+                translateText(id, profile)
+            }
+        }
+
+        /**
+         * Translate text for a player.
          * @param id Message id.
          * @param profile Profile to translate for.
          */
