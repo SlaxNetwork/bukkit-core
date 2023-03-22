@@ -57,6 +57,23 @@ class LanguageProviderImpl : LanguageProvider {
                 continue
             }
 
+            if(v is JsonArray) {
+                // TODO: 3/22/2023 tmp, please combine into one.
+                val string = v.filterIsInstance<JsonPrimitive>()
+                    .filter { it.isString }
+                    .joinToString("\n") { it.content }
+
+                _messages[languageId]
+                    ?.put(
+                        if(prefix.isEmpty()) k
+                        else "${prefix}${k}",
+
+                        string
+                    )
+
+                continue
+            }
+
             if(v is JsonObject) {
                 loadMessagesFromLanguage(languageId, v, "${prefix}${k}.")
             }
