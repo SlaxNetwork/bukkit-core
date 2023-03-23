@@ -16,7 +16,9 @@ import io.github.slaxnetwork.listeners.PlayerQuitListener
 import io.github.slaxnetwork.profile.ProfileRegistryImpl
 import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import io.github.slaxnetwork.bukkitcore.rank.RankRegistry
+import io.github.slaxnetwork.bukkitcore.scoreboard.ScoreboardManager
 import io.github.slaxnetwork.rank.RankRegistryImpl
+import io.github.slaxnetwork.scoreboard.ScoreboardManagerImpl
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.plugin.ServicePriority
 import java.io.File
@@ -35,6 +37,9 @@ class BukkitCore : SuspendingJavaPlugin() {
         private set
 
     lateinit var languageProvider: LanguageProvider
+        private set
+
+    lateinit var scoreboardManager: ScoreboardManager
         private set
 
     override suspend fun onLoadAsync() {
@@ -62,9 +67,18 @@ class BukkitCore : SuspendingJavaPlugin() {
         mm = SlaxMiniMessageBuilderImpl(iconRegistry, languageProvider)
             .createInstance()
 
+        scoreboardManager = ScoreboardManagerImpl()
+
         server.servicesManager.register(
             BukkitCoreAPI::class.java,
             BukkitCoreAPIImpl(profileRegistry, iconRegistry, languageProvider, kyouko.servers),
+            this,
+            ServicePriority.Normal
+        )
+
+        server.servicesManager.register(
+            ScoreboardManager::class.java,
+            scoreboardManager,
             this,
             ServicePriority.Normal
         )
