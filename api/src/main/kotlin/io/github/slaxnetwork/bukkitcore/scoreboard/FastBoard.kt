@@ -19,6 +19,10 @@ interface FastBoard {
 
     fun updateLine(boardLine: BoardLine) // added
 
+    fun updateLineIndex(index: Int) // added
+
+    fun updateLineById(id: String) // added
+
     fun removeLine(line: Int)
 
     fun delete()

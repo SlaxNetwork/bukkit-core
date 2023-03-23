@@ -67,7 +67,7 @@ class BukkitCore : SuspendingJavaPlugin() {
         mm = SlaxMiniMessageBuilderImpl(iconRegistry, languageProvider)
             .createInstance()
 
-        scoreboardManager = ScoreboardManagerImpl()
+        scoreboardManager = ScoreboardManagerImpl(server.scheduler)
 
         server.servicesManager.register(
             BukkitCoreAPI::class.java,

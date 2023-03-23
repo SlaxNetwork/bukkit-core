@@ -4,6 +4,7 @@ import io.github.slaxnetwork.BukkitCoreKt;
 import io.github.slaxnetwork.bukkitcore.scoreboard.BoardComponent;
 import io.github.slaxnetwork.bukkitcore.scoreboard.BoardLine;
 import io.github.slaxnetwork.bukkitcore.scoreboard.FastBoard;
+import io.github.slaxnetwork.bukkitcore.scoreboard.SimpleScoreboard;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
@@ -148,6 +149,8 @@ public class FastBoardImpl implements FastBoard {
     private final List<String> lines = new ArrayList<>();
     private String title = ChatColor.RESET.toString();
 
+    private final SimpleScoreboard simpleScoreboard;
+
     private boolean deleted = false;
 
     /**
@@ -155,8 +158,9 @@ public class FastBoardImpl implements FastBoard {
      *
      * @param player the owner of the scoreboard
      */
-    public FastBoardImpl(Player player) {
+    public FastBoardImpl(Player player, SimpleScoreboard simpleScoreboard) {
         this.player = Objects.requireNonNull(player, "player");
+        this.simpleScoreboard = Objects.requireNonNull(simpleScoreboard);
         this.id = "fb-" + Integer.toHexString(ThreadLocalRandom.current().nextInt());
 
         try {
@@ -425,6 +429,25 @@ public class FastBoardImpl implements FastBoard {
                 }).toList();
 
         updateLinesStr(sortedLines);
+    }
+
+    @Override
+    public void updateLineIndex(int index) {
+        var line = simpleScoreboard.getLines().get(index);
+        if(line == null) {
+            return;
+        }
+
+        updateLine(line);
+    }
+
+    @Override
+    public void updateLineById(@NotNull String id) {
+        var boardLine = simpleScoreboard.getLines().stream()
+                .filter(line -> line.getId().equalsIgnoreCase(id))
+                .findFirst();
+
+        boardLine.ifPresent(this::updateLine);
     }
 
     /**
