@@ -10,9 +10,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.index.qual.SubstringIndexBottom;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -420,7 +418,7 @@ public class FastBoardImpl implements FastBoard {
         }
 
         var component = boardLine.getComponent();
-        updateLineStr(boardLine.getLine(), serializer.serialize(mm.deserialize(component.getText(), component.getResolvers())));
+        updateLineStr(boardLine.getPriority(), serializer.serialize(mm.deserialize(component.getText(), component.getResolvers())));
     }
 
     @Override
@@ -432,7 +430,7 @@ public class FastBoardImpl implements FastBoard {
     public void updateLines(@NotNull Collection<BoardLine> lines) {
         var sortedLines = lines.stream()
                 .filter(BoardLine::getEnabled)
-                .sorted(Comparator.comparingInt(BoardLine::getLine).reversed())
+                .sorted(Comparator.comparingInt(BoardLine::getPriority).reversed())
                 .map(line -> {
                     var component = line.getComponent();
                     return serializer.serialize(mm.deserialize(component.getText(), component.getResolvers()));

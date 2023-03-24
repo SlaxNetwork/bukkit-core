@@ -2,7 +2,7 @@ package io.github.slaxnetwork.bukkitcore.scoreboard
 
 data class BoardLine(
     val id: String,
-    var line: Int,
+    var priority: Int,
     var enabled: Boolean = true,
     val component: BoardComponent
 )

@@ -38,6 +38,19 @@ class ScoreboardManagerImpl(
         return boards[player.uniqueId]
     }
 
+    override fun switchBoardForAll(boardId: String) {
+        if(boardId.equals("primary", true)) {
+            for(board in boards.values) {
+                board.switchBoardToPrimary()
+            }
+            return
+        }
+
+        for(board in boards.values) {
+            board.switchBoard(boardId)
+        }
+    }
+
     override fun updateAllBoardLine(boardId: String, lineId: String) {
         val matchingBoards = boards.values.filter { it.id.equals(boardId, true) }
         if(matchingBoards.isEmpty()) {

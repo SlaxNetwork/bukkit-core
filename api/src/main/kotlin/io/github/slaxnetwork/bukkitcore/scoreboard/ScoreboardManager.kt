@@ -11,6 +11,8 @@ interface ScoreboardManager {
 
     fun getFastBoard(player: Player): FastBoard?
 
+    fun switchBoardForAll(boardId: String)
+
     fun updateAllBoardLine(boardId: String, lineId: String)
 
     companion object {
