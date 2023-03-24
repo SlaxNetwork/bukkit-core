@@ -17,8 +17,11 @@ import io.github.slaxnetwork.profile.ProfileRegistryImpl
 import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import io.github.slaxnetwork.bukkitcore.rank.RankRegistry
 import io.github.slaxnetwork.bukkitcore.scoreboard.ScoreboardManager
+import io.github.slaxnetwork.bukkitcore.utilities.config.injectConfig
+import io.github.slaxnetwork.bukkitcore.utilities.config.loadInjectableResources
 import io.github.slaxnetwork.rank.RankRegistryImpl
 import io.github.slaxnetwork.scoreboard.ScoreboardManagerImpl
+import kotlinx.serialization.Serializable
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.plugin.ServicePriority
 import java.io.File
@@ -87,8 +90,8 @@ class BukkitCore : SuspendingJavaPlugin() {
 
         setOf(
             AsyncPlayerChatListener(profileRegistry),
-            PlayerLoginListener(profileRegistry, kyouko.profiles,),
-            PlayerQuitListener(profileRegistry)
+            PlayerLoginListener(profileRegistry, kyouko.profiles),
+            PlayerQuitListener(profileRegistry, scoreboardManager)
         ).forEach { server.pluginManager.registerSuspendingEvents(it, this) }
     }
 

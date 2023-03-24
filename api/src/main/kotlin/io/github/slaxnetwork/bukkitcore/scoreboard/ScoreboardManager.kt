@@ -4,11 +4,13 @@ import org.bukkit.entity.Player
 import org.bukkit.plugin.ServicesManager
 
 interface ScoreboardManager {
-    fun setBoard(player: Player, board: SimpleScoreboard)
+    fun setBoard(player: Player, board: SimpleScoreboard): FastBoard
 
-    fun updateLine(player: Player, line: Int)
+    fun clearBoard(player: Player)
 
-    fun updateLine(player: Player, id: String)
+    fun getFastBoard(player: Player): FastBoard?
+
+    fun updateAllBoardLine(boardId: String, lineId: String)
 
     companion object {
         fun get(sm: ServicesManager): ScoreboardManager? {

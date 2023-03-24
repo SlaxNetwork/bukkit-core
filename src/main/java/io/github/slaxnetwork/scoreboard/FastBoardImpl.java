@@ -1,9 +1,9 @@
 package io.github.slaxnetwork.scoreboard;
 
 import io.github.slaxnetwork.BukkitCoreKt;
-import io.github.slaxnetwork.bukkitcommon.scoreboard.BoardComponent;
-import io.github.slaxnetwork.bukkitcommon.scoreboard.BoardLine;
-import io.github.slaxnetwork.bukkitcommon.scoreboard.SimpleScoreboard;
+import io.github.slaxnetwork.bukkitcore.scoreboard.BoardComponent;
+import io.github.slaxnetwork.bukkitcore.scoreboard.BoardLine;
+import io.github.slaxnetwork.bukkitcore.scoreboard.SimpleScoreboard;
 import io.github.slaxnetwork.bukkitcore.scoreboard.FastBoard;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -410,6 +410,10 @@ public class FastBoardImpl implements FastBoard {
 
     @Override
     public void updateLine(@NotNull BoardLine boardLine) {
+        if(!boardLine.getEnabled()) {
+            return;
+        }
+
         var component = boardLine.getComponent();
         updateLineStr(boardLine.getLine(), serializer.serialize(mm.deserialize(component.getText(), component.getResolvers())));
     }
@@ -422,6 +426,7 @@ public class FastBoardImpl implements FastBoard {
     @Override
     public void updateLines(@NotNull Collection<BoardLine> lines) {
         var sortedLines = lines.stream()
+                .filter(BoardLine::getEnabled)
                 .sorted(Comparator.comparingInt(BoardLine::getLine))
                 .map(line -> {
                     var component = line.getComponent();
@@ -432,7 +437,7 @@ public class FastBoardImpl implements FastBoard {
     }
 
     @Override
-    public void updateLineIndex(int index) {
+    public void updateLineByIndex(int index) {
         var line = simpleScoreboard.getLines().get(index);
         if(line == null) {
             return;
@@ -442,12 +447,61 @@ public class FastBoardImpl implements FastBoard {
     }
 
     @Override
-    public void updateLineById(@NotNull String id) {
-        var boardLine = simpleScoreboard.getLines().stream()
-                .filter(line -> line.getId().equalsIgnoreCase(id))
-                .findFirst();
+    public void updateLineById(@NotNull String lineId) {
+        var boardLine = simpleScoreboard.getIdentifiedLines().get(lineId);
+        if(boardLine == null) {
+            return;
+        }
 
-        boardLine.ifPresent(this::updateLine);
+        updateLine(boardLine);
+    }
+
+    @Override
+    public void refresh() {
+        updateLines(simpleScoreboard.getLines());
+    }
+
+    @Override
+    public void enableLine(@NotNull String lineId) {
+        var boardLine = simpleScoreboard.getIdentifiedLines().get(lineId);
+        if(boardLine == null) {
+            return;
+        }
+
+        boardLine.setEnabled(true);
+        refresh();
+    }
+
+    @Override
+    public void enableLine(int index) {
+        var boardLine = simpleScoreboard.getLines().get(index);
+        if(boardLine == null) {
+            return;
+        }
+
+        boardLine.setEnabled(true);
+        refresh();
+    }
+
+    @Override
+    public void disableLine(@NotNull String lineId) {
+        var boardLine = simpleScoreboard.getIdentifiedLines().get(lineId);
+        if(boardLine == null) {
+            return;
+        }
+
+        boardLine.setEnabled(false);
+        refresh();
+    }
+
+    @Override
+    public void disableLine(int index) {
+        var boardLine = simpleScoreboard.getLines().get(index);
+        if(boardLine == null) {
+            return;
+        }
+
+        boardLine.setEnabled(false);
     }
 
     /**
