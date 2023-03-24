@@ -2,7 +2,6 @@ package io.github.slaxnetwork.scoreboard
 
 import io.github.slaxnetwork.BukkitCore
 import io.github.slaxnetwork.bukkitcore.scoreboard.ScoreboardManager
-import io.github.slaxnetwork.bukkitcore.scoreboard.SimpleScoreboard
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitScheduler

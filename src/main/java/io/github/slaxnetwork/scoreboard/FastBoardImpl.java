@@ -1,10 +1,10 @@
 package io.github.slaxnetwork.scoreboard;
 
 import io.github.slaxnetwork.BukkitCoreKt;
-import io.github.slaxnetwork.bukkitcore.scoreboard.BoardComponent;
-import io.github.slaxnetwork.bukkitcore.scoreboard.BoardLine;
+import io.github.slaxnetwork.bukkitcommon.scoreboard.BoardComponent;
+import io.github.slaxnetwork.bukkitcommon.scoreboard.BoardLine;
+import io.github.slaxnetwork.bukkitcommon.scoreboard.SimpleScoreboard;
 import io.github.slaxnetwork.bukkitcore.scoreboard.FastBoard;
-import io.github.slaxnetwork.bukkitcore.scoreboard.SimpleScoreboard;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;

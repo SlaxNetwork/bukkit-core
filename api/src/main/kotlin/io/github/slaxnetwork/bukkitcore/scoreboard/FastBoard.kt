@@ -1,5 +1,8 @@
 package io.github.slaxnetwork.bukkitcore.scoreboard
 
+import io.github.slaxnetwork.bukkitcommon.scoreboard.BoardComponent
+import io.github.slaxnetwork.bukkitcommon.scoreboard.BoardLine
+
 interface FastBoard {
     val id: String
 
