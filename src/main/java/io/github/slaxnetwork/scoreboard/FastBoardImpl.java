@@ -3,13 +3,16 @@ package io.github.slaxnetwork.scoreboard;
 import io.github.slaxnetwork.BukkitCoreKt;
 import io.github.slaxnetwork.bukkitcore.scoreboard.BoardComponent;
 import io.github.slaxnetwork.bukkitcore.scoreboard.BoardLine;
-import io.github.slaxnetwork.bukkitcore.scoreboard.SimpleScoreboard;
+import io.github.slaxnetwork.bukkitcore.scoreboard.types.MultiScoreboard;
+import io.github.slaxnetwork.bukkitcore.scoreboard.types.SimpleScoreboard;
 import io.github.slaxnetwork.bukkitcore.scoreboard.FastBoard;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.index.qual.SubstringIndexBottom;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -34,6 +37,8 @@ public class FastBoardImpl implements FastBoard {
     private static final MiniMessage mm = BukkitCoreKt.getMm();
 
     private static final LegacyComponentSerializer serializer = LegacyComponentSerializer.legacySection();
+
+    private String currentBoardId = "primary";
 
     private static final Map<Class<?>, Field[]> PACKETS = new HashMap<>(8);
     private static final String[] COLOR_CODES = Arrays.stream(ChatColor.values())
@@ -427,7 +432,7 @@ public class FastBoardImpl implements FastBoard {
     public void updateLines(@NotNull Collection<BoardLine> lines) {
         var sortedLines = lines.stream()
                 .filter(BoardLine::getEnabled)
-                .sorted(Comparator.comparingInt(BoardLine::getLine))
+                .sorted(Comparator.comparingInt(BoardLine::getLine).reversed())
                 .map(line -> {
                     var component = line.getComponent();
                     return serializer.serialize(mm.deserialize(component.getText(), component.getResolvers()));
@@ -438,17 +443,12 @@ public class FastBoardImpl implements FastBoard {
 
     @Override
     public void updateLineByIndex(int index) {
-        var line = simpleScoreboard.getLines().get(index);
-        if(line == null) {
-            return;
-        }
 
-        updateLine(line);
     }
 
     @Override
     public void updateLineById(@NotNull String lineId) {
-        var boardLine = simpleScoreboard.getIdentifiedLines().get(lineId);
+        var boardLine = getCurrentIdentifiedBoardLines().get(lineId);
         if(boardLine == null) {
             return;
         }
@@ -458,23 +458,12 @@ public class FastBoardImpl implements FastBoard {
 
     @Override
     public void refresh() {
-        updateLines(simpleScoreboard.getLines());
+        updateLines(getCurrentBoardLines());
     }
 
     @Override
     public void enableLine(@NotNull String lineId) {
-        var boardLine = simpleScoreboard.getIdentifiedLines().get(lineId);
-        if(boardLine == null) {
-            return;
-        }
-
-        boardLine.setEnabled(true);
-        refresh();
-    }
-
-    @Override
-    public void enableLine(int index) {
-        var boardLine = simpleScoreboard.getLines().get(index);
+        var boardLine = getCurrentIdentifiedBoardLines().get(lineId);
         if(boardLine == null) {
             return;
         }
@@ -485,7 +474,7 @@ public class FastBoardImpl implements FastBoard {
 
     @Override
     public void disableLine(@NotNull String lineId) {
-        var boardLine = simpleScoreboard.getIdentifiedLines().get(lineId);
+        var boardLine = getCurrentIdentifiedBoardLines().get(lineId);
         if(boardLine == null) {
             return;
         }
@@ -495,13 +484,52 @@ public class FastBoardImpl implements FastBoard {
     }
 
     @Override
-    public void disableLine(int index) {
-        var boardLine = simpleScoreboard.getLines().get(index);
-        if(boardLine == null) {
-            return;
+    public void switchBoardToPrimary() {
+        this.currentBoardId = "primary";
+        refresh();
+    }
+
+    @Override
+    public void switchBoard(@NotNull String boardId) {
+        if(simpleScoreboard instanceof MultiScoreboard ms) {
+            if(!ms.getSubBoards().containsKey(boardId)) {
+                return;
+            }
+
+            this.currentBoardId = boardId;
         }
 
-        boardLine.setEnabled(false);
+        refresh();
+    }
+
+    private List<BoardLine> getCurrentBoardLines() {
+        if(this.currentBoardId.equalsIgnoreCase("primary")) {
+            return simpleScoreboard.getLines();
+        }
+
+        if(simpleScoreboard instanceof MultiScoreboard ms) {
+            return Objects.requireNonNullElseGet(ms.getSubBoards().get(this.currentBoardId), List::of);
+        }
+
+        return List.of();
+    }
+
+    private Map<String, BoardLine> getCurrentIdentifiedBoardLines() {
+        if(this.currentBoardId.equalsIgnoreCase("primary")) {
+            return simpleScoreboard.identifyLines();
+        }
+
+        if(simpleScoreboard instanceof MultiScoreboard ms) {
+            return Objects.requireNonNullElseGet(ms.identifyLines(this.currentBoardId), Map::of);
+        }
+
+        return Map.of();
+    }
+
+    @NotNull
+    @Override
+    public String getCurrentBoardId() {
+        return currentBoardId;
     }
 
     /**

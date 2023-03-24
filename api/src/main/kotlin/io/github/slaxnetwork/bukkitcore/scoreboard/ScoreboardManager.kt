@@ -1,5 +1,6 @@
 package io.github.slaxnetwork.bukkitcore.scoreboard
 
+import io.github.slaxnetwork.bukkitcore.scoreboard.types.SimpleScoreboard
 import org.bukkit.entity.Player
 import org.bukkit.plugin.ServicesManager
 

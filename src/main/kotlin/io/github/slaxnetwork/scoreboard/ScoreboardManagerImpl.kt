@@ -2,7 +2,7 @@ package io.github.slaxnetwork.scoreboard
 
 import io.github.slaxnetwork.bukkitcore.scoreboard.FastBoard
 import io.github.slaxnetwork.bukkitcore.scoreboard.ScoreboardManager
-import io.github.slaxnetwork.bukkitcore.scoreboard.SimpleScoreboard
+import io.github.slaxnetwork.bukkitcore.scoreboard.types.SimpleScoreboard
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitScheduler
 import java.util.UUID
@@ -18,6 +18,8 @@ class ScoreboardManagerImpl(
         val fastBoard = FastBoardImpl(player, board)
         fastBoard.updateTitle(board.title)
         fastBoard.updateLines(board.lines)
+
+        boards[player.uniqueId] = fastBoard
 
         return fastBoard
     }

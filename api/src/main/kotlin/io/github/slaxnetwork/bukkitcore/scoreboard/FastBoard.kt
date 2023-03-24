@@ -17,6 +17,12 @@ interface FastBoard {
     val isDeleted: Boolean
 
     /**
+     * The current board id being used.
+     * Primary if no sub-board is being used.
+     */
+    val currentBoardId: String
+
+    /**
      * Update the title of a scoreboard.
      * @param title New title.
      */
@@ -64,21 +70,39 @@ interface FastBoard {
      */
     fun updateLineById(lineId: String) // added
 
-    fun refresh()
+    /**
+     * Refresh all lines on the current scoreboard.
+     */
+    fun refresh() // added
+
+    /**
+     * Switch the scoreboard to the primary one.
+     */
+    fun switchBoardToPrimary() // added
+
+    /**
+     * Switch the scoreboard to a sub-board.
+     * @param boardId Sub-board id.
+     */
+    fun switchBoard(boardId: String) // added
 
     /**
      * Remove a specific line from the scoreboard.
      * @param line Index to delete.
      */
-    fun removeLine(line: Int)
+    fun removeLine(line: Int) // added
 
-    fun enableLine(lineId: String)
+    /**
+     * Enable a line on the scoreboard based on its id.
+     * @param lineId Line to enable.
+     */
+    fun enableLine(lineId: String) // added
 
-    fun enableLine(index: Int)
-
-    fun disableLine(lineId: String)
-
-    fun disableLine(index: Int)
+    /**
+     * Disable a line on the scoreboard based on its id.
+     * @param lineId Line to disable.
+     */
+    fun disableLine(lineId: String) // added
 
     /**
      * Delete the scoreboard for the player.

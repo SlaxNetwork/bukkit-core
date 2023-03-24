@@ -35,7 +35,6 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
 
-//    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
 
