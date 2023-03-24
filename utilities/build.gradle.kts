@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     compileOnly(project(":api"))
+    compileOnly("io.github.slaxnetwork:kyouko-wrapper:0.0.1")
 }
 
 publishing {
