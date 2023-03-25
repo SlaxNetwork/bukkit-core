@@ -25,8 +25,8 @@ allprojects {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/SlaxNetwork/kyouko-kt-wrapper")
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }
