@@ -1,3 +1,5 @@
+val kyouko_wrapper_version: String by project
+
 plugins {
     kotlin("jvm") version "1.8.10"
     kotlin("plugin.serialization") version "1.8.0"
@@ -40,7 +42,7 @@ dependencies {
     implementation(project(":api"))
     implementation(project(":utilities"))
 
-    implementation("io.github.slaxnetwork:kyouko-wrapper:0.0.1")
+    implementation("io.github.slaxnetwork:kyouko-wrapper:$kyouko_wrapper_version")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
 

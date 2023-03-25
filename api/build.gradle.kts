@@ -1,4 +1,4 @@
-import java.net.URI
+val kyouko_wrapper_version: String by project
 
 plugins {
     `maven-publish`
@@ -8,14 +8,14 @@ group = "io.github.slaxnetwork"
 version = "0.0.1"
 
 dependencies {
-    implementation("io.github.slaxnetwork:kyouko-wrapper:0.0.1")
+    implementation("io.github.slaxnetwork:kyouko-wrapper:$kyouko_wrapper_version")
 }
 
 publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = URI.create("https://maven.pkg.github.com/SlaxNetwork/bukkit-core")
+            url = uri("https://maven.pkg.github.com/SlaxNetwork/bukkit-core")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
