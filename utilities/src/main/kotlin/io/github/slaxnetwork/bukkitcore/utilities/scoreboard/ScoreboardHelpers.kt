@@ -7,10 +7,10 @@ fun boardComponent(comp: BoardComponent.() -> Unit): BoardComponent {
     return BoardComponent().apply(comp)
 }
 
-fun boardLine(id: String, line: Int, comp: BoardComponent.() -> Unit): BoardLine {
-    return BoardLine(id, line, true, BoardComponent().apply(comp))
+fun boardLine(id: String, priority: Int, comp: BoardComponent.() -> Unit): BoardLine {
+    return BoardLine(id, priority, true, BoardComponent().apply(comp))
 }
 
-fun boardLine(id: String, line: Int, enabled: Boolean, comp: BoardComponent.() -> Unit): BoardLine {
-    return BoardLine(id, line, enabled, BoardComponent().apply(comp))
+fun boardLine(id: String, priority: Int, enabled: Boolean, comp: BoardComponent.() -> Unit): BoardLine {
+    return BoardLine(id, priority, enabled, BoardComponent().apply(comp))
 }
