@@ -7,11 +7,15 @@ plugins {
 val githubActor = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
 val githubToken = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
 
-group = "io.github.slaxnetwork"
-version = "0.0.1"
+version = "0.0.2"
 
 dependencies {
     implementation("io.github.slaxnetwork:kyouko-wrapper:$kyouko_wrapper_version")
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 publishing {

@@ -16,7 +16,6 @@ allprojects {
     apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
     group = "io.github.slaxnetwork.bukkitcore"
-    version = "0.0.1"
 
     repositories {
         mavenCentral()
