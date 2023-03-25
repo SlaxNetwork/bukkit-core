@@ -18,6 +18,15 @@ allprojects {
         mavenLocal()
 
         maven("https://repo.papermc.io/repository/maven-public/")
+
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/SlaxNetwork/kyouko-kt-wrapper")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 
     dependencies {
