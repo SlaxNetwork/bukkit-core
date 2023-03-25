@@ -15,13 +15,25 @@ val CONFIGURATION_CONTAINER: Map<Any, Any>
     get() = Collections.unmodifiableMap(configurationContainer)
 
 /**
+ * Load the config.json file.
+ * @param plugin Instance to accessing [JavaPlugin].
+ * @param kClass [KClass] of the configuration.
+ * @param replace Whether to replace existing resources or not.
+ */
+fun loadConfig(plugin: JavaPlugin, kClass: KClass<out Any>, replace: Boolean = true) {
+    loadInjectableResources(plugin, mapOf("config.json" to kClass), replace)
+}
+
+/**
  * Load all configurations in resources.
  * @param plugin Instance to accessing [JavaPlugin].
+ * @param resources Resources to load from the [JavaPlugin].
+ * @param replace Whether to replace existing resources or not.
  */
 @OptIn(ExperimentalSerializationApi::class)
-fun loadInjectableResources(plugin: JavaPlugin, resources: Map<String, KClass<out Any>>) {
+fun loadInjectableResources(plugin: JavaPlugin, resources: Map<String, KClass<out Any>>, replace: Boolean = true) {
     for((resourcePath, kClass) in resources) {
-        plugin.saveResource(resourcePath, true)
+        plugin.saveResource(resourcePath, replace)
 
         if(!resourcePath.endsWith(".json", true)) {
             continue

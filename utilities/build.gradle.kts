@@ -8,7 +8,7 @@ val githubActor = project.findProperty("gpr.user") as String? ?: System.getenv("
 val githubToken = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
 
 group = "io.github.slaxnetwork.bukkitcore"
-version = "0.0.1"
+version = "0.0.2"
 
 dependencies {
     compileOnly(project(":api"))
