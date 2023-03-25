@@ -1,3 +1,5 @@
+import java.net.URI
+
 plugins {
     `maven-publish`
 }
@@ -16,6 +18,17 @@ dependencies {
 }
 
 publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = URI.create("https://maven.pkg.github.com/SlaxNetwork/bukkit-core")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+
     publications {
         create<MavenPublication>(project.name.toLowerCase()) {
             groupId = "io.github.slaxnetwork"
