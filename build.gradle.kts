@@ -8,6 +8,9 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
+val githubActor = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+val githubToken = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+
 allprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
@@ -25,8 +28,8 @@ allprojects {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/SlaxNetwork/kyouko-kt-wrapper")
             credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+                username = githubActor
+                password = githubToken
             }
         }
     }

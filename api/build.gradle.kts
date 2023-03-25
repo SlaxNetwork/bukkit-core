@@ -4,6 +4,9 @@ plugins {
     `maven-publish`
 }
 
+val githubActor = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+val githubToken = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+
 group = "io.github.slaxnetwork"
 version = "0.0.1"
 
@@ -17,8 +20,8 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/SlaxNetwork/bukkit-core")
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username = githubActor
+                password = githubToken
             }
         }
     }
