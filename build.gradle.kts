@@ -1,3 +1,5 @@
+val kyouko_wrapper_version: String by project
+
 plugins {
     kotlin("jvm") version "1.8.10"
     kotlin("plugin.serialization") version "1.8.0"
@@ -18,6 +20,15 @@ allprojects {
         mavenLocal()
 
         maven("https://repo.papermc.io/repository/maven-public/")
+
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/SlaxNetwork/kyouko-kt-wrapper")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 
     dependencies {
@@ -31,7 +42,7 @@ dependencies {
     implementation(project(":api"))
     implementation(project(":utilities"))
 
-    implementation("io.github.slaxnetwork:kyouko-wrapper:0.0.1")
+    implementation("io.github.slaxnetwork:kyouko-wrapper:$kyouko_wrapper_version")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
 
