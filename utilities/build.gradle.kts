@@ -7,11 +7,6 @@ plugins {
 group = "io.github.slaxnetwork.bukkitcore"
 version = "0.0.1"
 
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-
 dependencies {
     compileOnly(project(":api"))
     compileOnly("io.github.slaxnetwork:kyouko-wrapper:$kyouko_wrapper_version")
