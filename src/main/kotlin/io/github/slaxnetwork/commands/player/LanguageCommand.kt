@@ -14,8 +14,7 @@ import org.bukkit.entity.Player
 
 class LanguageCommand(
     private val profileRegistry: ProfileRegistry,
-    private val languageProvider: LanguageProvider,
-    private val profileService: ProfileService
+    private val languageProvider: LanguageProvider
 ) : SuspendingCommandExecutor {
     override suspend fun onCommand(
         sender: CommandSender,
@@ -50,7 +49,7 @@ class LanguageCommand(
 
         // TODO: 2/26/2023 maybe don't update it on the db every single time the command is ran.
         // Cache new language and update on quit.
-        profileService.updateLanguage(sender.uniqueId, languageId)
+        ProfileService.updateLanguage(sender.uniqueId, languageId)
             .onSuccess {
                 profile.settings.language = languageId
 

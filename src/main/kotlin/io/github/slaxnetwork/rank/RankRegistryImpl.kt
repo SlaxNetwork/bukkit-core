@@ -5,9 +5,7 @@ import io.github.slaxnetwork.kyouko.models.rank.Rank
 import io.github.slaxnetwork.kyouko.services.v1.RankService
 import java.util.Collections
 
-class RankRegistryImpl(
-    private val rankService: RankService
-) : RankRegistry {
+class RankRegistryImpl : RankRegistry {
     private val _ranks = mutableSetOf<Rank>()
 
     override val ranks: Set<Rank>
@@ -17,7 +15,7 @@ class RankRegistryImpl(
         get() = ranks.associateBy { it.id }
 
     override suspend fun initialize() {
-        rankService.getAll()
+        RankService.getAll()
             .getOrThrow()
             .forEach(_ranks::add)
     }

@@ -12,14 +12,13 @@ import org.bukkit.event.player.PlayerLoginEvent
 import java.util.UUID
 
 class PlayerLoginListener(
-    private val profileRegistry: ProfileRegistry,
-    private val profileService: ProfileService
+    private val profileRegistry: ProfileRegistry
 ) : Listener {
     private val pendingConnections = mutableMapOf<UUID, Profile>()
 
     @EventHandler
     suspend fun onPlayerPreLogin(ev: AsyncPlayerPreLoginEvent) = runBlocking {
-        val profile = profileService.findByUUID(ev.uniqueId)
+        val profile = ProfileService.findByUUID(ev.uniqueId)
             .getOrNull()
 
         if(profile == null) {

@@ -7,7 +7,6 @@ import io.github.slaxnetwork.icon.IconRegistryImpl
 import com.github.shynixn.mccoroutine.bukkit.setSuspendingExecutor
 import io.github.slaxnetwork.bukkitcore.BukkitCoreAPI
 import io.github.slaxnetwork.commands.player.LanguageCommand
-import io.github.slaxnetwork.kyouko.KyoukoAPI
 import io.github.slaxnetwork.bukkitcore.language.LanguageProvider
 import io.github.slaxnetwork.language.LanguageProviderImpl
 import io.github.slaxnetwork.listeners.AsyncPlayerChatListener
@@ -17,19 +16,13 @@ import io.github.slaxnetwork.profile.ProfileRegistryImpl
 import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import io.github.slaxnetwork.bukkitcore.rank.RankRegistry
 import io.github.slaxnetwork.bukkitcore.scoreboard.ScoreboardManager
-import io.github.slaxnetwork.bukkitcore.utilities.config.injectConfig
-import io.github.slaxnetwork.bukkitcore.utilities.config.loadInjectableResources
 import io.github.slaxnetwork.rank.RankRegistryImpl
 import io.github.slaxnetwork.scoreboard.ScoreboardManagerImpl
-import kotlinx.serialization.Serializable
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.plugin.ServicePriority
 import java.io.File
 
 class BukkitCore : SuspendingJavaPlugin() {
-    lateinit var kyouko: KyoukoAPI
-        private set
-
     lateinit var profileRegistry: ProfileRegistry
         private set
 
@@ -46,11 +39,10 @@ class BukkitCore : SuspendingJavaPlugin() {
         private set
 
     override suspend fun onLoadAsync() {
-        kyouko = KyoukoAPI(System.getProperty("API_SECRET") ?: "KYOUKO")
     }
 
     override suspend fun onEnableAsync() {
-        rankRegistry = RankRegistryImpl(kyouko.ranks)
+        rankRegistry = RankRegistryImpl()
         profileRegistry = ProfileRegistryImpl()
         iconRegistry = IconRegistryImpl(File(server.worldContainer, "icons/icons.json"))
 
@@ -74,7 +66,7 @@ class BukkitCore : SuspendingJavaPlugin() {
 
         server.servicesManager.register(
             BukkitCoreAPI::class.java,
-            BukkitCoreAPIImpl(profileRegistry, iconRegistry, languageProvider, kyouko.servers),
+            BukkitCoreAPIImpl(profileRegistry, iconRegistry, languageProvider),
             this,
             ServicePriority.Normal
         )
@@ -86,11 +78,11 @@ class BukkitCore : SuspendingJavaPlugin() {
             ServicePriority.Normal
         )
 
-        getCommand("language")?.setSuspendingExecutor(LanguageCommand(profileRegistry, languageProvider, kyouko.profiles))
+        getCommand("language")?.setSuspendingExecutor(LanguageCommand(profileRegistry, languageProvider))
 
         setOf(
             AsyncPlayerChatListener(profileRegistry),
-            PlayerLoginListener(profileRegistry, kyouko.profiles),
+            PlayerLoginListener(profileRegistry),
             PlayerQuitListener(profileRegistry, scoreboardManager)
         ).forEach { server.pluginManager.registerSuspendingEvents(it, this) }
     }

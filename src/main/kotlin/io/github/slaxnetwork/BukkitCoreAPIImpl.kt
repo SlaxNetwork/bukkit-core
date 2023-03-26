@@ -12,8 +12,7 @@ import java.util.*
 class BukkitCoreAPIImpl(
     override val profileRegistry: ProfileRegistry,
     private val iconRegistry: IconRegistry,
-    private val languageProvider: LanguageProvider,
-    private val serverService: ServerService
+    private val languageProvider: LanguageProvider
 ): BukkitCoreAPI {
     override lateinit var instanceId: String
         private set
@@ -22,12 +21,12 @@ class BukkitCoreAPIImpl(
         get() = profileRegistry.profiles
 
     override suspend fun registerServer(ip: String, port: Int, type: String): Result<String> {
-        return serverService.registerInstance(ip, port, type)
+        return ServerService.registerInstance(ip, port, type)
             .onSuccess { instanceId = it }
     }
 
     override suspend fun unregisterServer(): Result<Unit> {
-        return serverService.unregisterInstance(instanceId)
+        return ServerService.unregisterInstance(instanceId)
     }
 
     override fun getBaseMiniMessageBuilder(): MiniMessage.Builder {
