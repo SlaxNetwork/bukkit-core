@@ -11,7 +11,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 class SlaxMiniMessageBuilderImpl(
     iconRegistry: IconRegistry,
     languageProvider: LanguageProvider
-): SlaxMiniMessageBuilder {
+) : SlaxMiniMessageBuilder {
     private val iconTagHandler = IconTags(iconRegistry)
     private val languageTagHandler = LanguageTags(languageProvider)
 

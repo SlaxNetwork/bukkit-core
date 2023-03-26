@@ -16,16 +16,11 @@ class LanguageTags(
      * handled by the resource pack.
      */
     fun textTag(args: ArgumentQueue, ctx: Context): Tag {
-        val arguments = args.popOr("The <text> tag requires an id to be passed.")
-            .value()
-
-        val sepIndex = arguments.indexOf('.')
-
-        val languageId = arguments.substring(0, sepIndex)
-        val messageId = arguments.substring(sepIndex + 1, arguments.length)
+        val languageId = args.popOr("language id expected.").value()
+        val messageId = args.popOr("message id expected.").value()
 
         val str = languageProvider.messages[languageId]
-            ?.get(messageId) ?: "<MISSING STRING TABLE ENTRY $languageId.$messageId>"
+            ?.get(messageId) ?: "<MISSING STRING TABLE ENTRY $languageId:$messageId>"
 
         return Tag.preProcessParsed(str)
     }
@@ -64,12 +59,12 @@ class LanguageTags(
         }
 
         /**
-         * Get the ta
+         * Get the tag
          */
         fun translateText(id: String, languageId: String): TagResolver {
             return Placeholder.parsed(
                 "text",
-                "<text:${languageId}.${id}>"
+                "<text:${languageId}:${id}>"
             )
         }
     }
