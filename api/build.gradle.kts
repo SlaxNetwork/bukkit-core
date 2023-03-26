@@ -7,7 +7,7 @@ plugins {
 val githubActor = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
 val githubToken = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
 
-version = "0.0.2"
+version = "0.0.3"
 
 dependencies {
     implementation("io.github.slaxnetwork:kyouko-wrapper:$kyouko_wrapper_version")

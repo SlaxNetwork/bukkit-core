@@ -60,7 +60,7 @@ class LanguageTags(
          * @param id Message id.
          */
         fun getText(id: String): TagResolver {
-            return translateText("en_us", id)
+            return translateText(id, "en_us")
         }
 
         /**
