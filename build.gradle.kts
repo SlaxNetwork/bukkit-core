@@ -11,6 +11,8 @@ plugins {
 val githubActor = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
 val githubToken = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
 
+version = "0.0.1"
+
 allprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
@@ -60,6 +62,7 @@ dependencies {
 bukkit {
     name = "bukkit-core"
     apiVersion = "1.19"
+    version = "${project.version}"
     authors = listOf("Tech")
     main = "io.github.slaxnetwork.BukkitCore"
     commands {

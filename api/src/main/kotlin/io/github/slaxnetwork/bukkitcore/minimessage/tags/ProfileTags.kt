@@ -8,6 +8,11 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 
 object ProfileTags {
+    /**
+     * Replace <player_colored_name> with a colored version of the name provided.
+     * @param name Player username.
+     * @param profile Player profile.
+     */
     fun coloredName(name: String, profile: Profile): TagResolver {
         return TagResolver.resolver(
             "player_colored_name",

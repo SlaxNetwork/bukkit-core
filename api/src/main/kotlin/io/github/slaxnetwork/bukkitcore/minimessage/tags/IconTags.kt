@@ -10,7 +10,7 @@ class IconTags(
     private val iconRegistry: IconRegistry
 ) {
     /**
-     * Converts an icon tag into its corresponding unicode character to be
+     * Converts an icon tag of <icon:(TAG_ID)> into its corresponding unicode character to be
      * handled by the resource pack.
      */
     fun iconTag(args: ArgumentQueue, ctx: Context): Tag {
