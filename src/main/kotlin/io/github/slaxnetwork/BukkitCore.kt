@@ -19,7 +19,12 @@ import io.github.slaxnetwork.bukkitcore.scoreboard.ScoreboardManager
 import io.github.slaxnetwork.rank.RankRegistryImpl
 import io.github.slaxnetwork.scoreboard.ScoreboardManagerImpl
 import net.kyori.adventure.text.minimessage.MiniMessage
+import org.bukkit.Bukkit
 import org.bukkit.plugin.ServicePriority
+import org.koin.core.KoinApplication
+import org.koin.core.context.GlobalContext
+import org.koin.core.context.startKoin
+import org.koin.dsl.module
 import java.io.File
 
 class BukkitCore : SuspendingJavaPlugin() {
@@ -50,8 +55,8 @@ class BukkitCore : SuspendingJavaPlugin() {
             rankRegistry.initialize()
             iconRegistry.initialize()
         } catch(ex: Exception) {
-            logger.severe("Unable to initialize a service.")
             ex.printStackTrace()
+
             server.shutdown()
             return
         }
@@ -59,21 +64,15 @@ class BukkitCore : SuspendingJavaPlugin() {
         languageProvider = LanguageProviderImpl()
         languageProvider.register()
 
+        scoreboardManager = ScoreboardManagerImpl(server.scheduler)
+
         mm = SlaxMiniMessageBuilderImpl(iconRegistry, languageProvider)
             .createInstance()
 
-        scoreboardManager = ScoreboardManagerImpl(server.scheduler)
-
-        server.servicesManager.register(
-            BukkitCoreAPI::class.java,
-            BukkitCoreAPIImpl(profileRegistry, iconRegistry, languageProvider),
-            this,
-            ServicePriority.Normal
-        )
-
-        server.servicesManager.register(
-            ScoreboardManager::class.java,
-            scoreboardManager,
+        val koin = initializeKoin()
+        Bukkit.getServicesManager().register(
+            KoinApplication::class.java,
+            koin,
             this,
             ServicePriority.Normal
         )
@@ -88,6 +87,29 @@ class BukkitCore : SuspendingJavaPlugin() {
     }
 
     override suspend fun onDisableAsync() {
+        GlobalContext.stopKoin()
+    }
+
+    private fun initializeKoin(): KoinApplication {
+        val dataModule = module {
+            single { profileRegistry }
+        }
+
+        val managerModule = module {
+            single { scoreboardManager }
+        }
+
+        val appModule = module {
+            includes(dataModule, managerModule)
+
+            single<BukkitCoreAPI> {
+                BukkitCoreAPIImpl(profileRegistry, iconRegistry, languageProvider)
+            }
+        }
+
+        return startKoin {
+            modules(appModule)
+        }
     }
 }
 
