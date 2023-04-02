@@ -11,11 +11,13 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
-class LanguageCommand(
-    private val profileRegistry: ProfileRegistry,
-    private val languageProvider: LanguageProvider
-) : SuspendingCommandExecutor {
+class LanguageCommand : SuspendingCommandExecutor, KoinComponent {
+    private val profileRegistry: ProfileRegistry = get()
+    private val languageProvider: LanguageProvider = get()
+
     override suspend fun onCommand(
         sender: CommandSender,
         command: Command,

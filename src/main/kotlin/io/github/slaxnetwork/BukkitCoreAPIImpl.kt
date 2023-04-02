@@ -1,19 +1,17 @@
 package io.github.slaxnetwork
 
 import io.github.slaxnetwork.bukkitcore.BukkitCoreAPI
-import io.github.slaxnetwork.bukkitcore.icon.IconRegistry
+import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import io.github.slaxnetwork.kyouko.models.profile.Profile
 import io.github.slaxnetwork.kyouko.services.v1.ServerService
-import io.github.slaxnetwork.bukkitcore.language.LanguageProvider
-import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import net.kyori.adventure.text.minimessage.MiniMessage
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 import java.util.*
 
-class BukkitCoreAPIImpl(
-    override val profileRegistry: ProfileRegistry,
-    private val iconRegistry: IconRegistry,
-    private val languageProvider: LanguageProvider
-): BukkitCoreAPI {
+class BukkitCoreAPIImpl : BukkitCoreAPI, KoinComponent {
+    override val profileRegistry: ProfileRegistry = get()
+
     override lateinit var instanceId: String
         private set
 
@@ -30,7 +28,7 @@ class BukkitCoreAPIImpl(
     }
 
     override fun getBaseMiniMessageBuilder(): MiniMessage.Builder {
-        return SlaxMiniMessageBuilderImpl(iconRegistry, languageProvider)
+        return SlaxMiniMessageBuilderImpl()
             .getBaseMiniMessageBuilder()
     }
 }

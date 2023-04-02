@@ -13,10 +13,12 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
-class AsyncPlayerChatListener(
-    private val profileRegistry: ProfileRegistry
-) : Listener {
+class AsyncPlayerChatListener : Listener, KoinComponent {
+    private val profileRegistry: ProfileRegistry = get()
+
     @EventHandler
     fun onPlayerChat(ev: AsyncChatEvent) {
         val profile = profileRegistry.profiles[ev.player.uniqueId]

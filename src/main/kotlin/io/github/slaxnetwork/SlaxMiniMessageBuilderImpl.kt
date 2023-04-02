@@ -7,11 +7,13 @@ import io.github.slaxnetwork.bukkitcore.minimessage.tags.IconTags
 import io.github.slaxnetwork.bukkitcore.minimessage.tags.LanguageTags
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
-class SlaxMiniMessageBuilderImpl(
-    iconRegistry: IconRegistry,
-    languageProvider: LanguageProvider
-) : SlaxMiniMessageBuilder {
+class SlaxMiniMessageBuilderImpl : SlaxMiniMessageBuilder, KoinComponent {
+    private val iconRegistry: IconRegistry = get()
+    private val languageProvider: LanguageProvider = get()
+
     private val iconTagHandler = IconTags(iconRegistry)
     private val languageTagHandler = LanguageTags(languageProvider)
 
