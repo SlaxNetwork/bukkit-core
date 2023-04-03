@@ -40,6 +40,8 @@ allprojects {
         compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
 
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+
+        api("io.insert-koin:koin-core:$koin_version")
     }
 }
 
@@ -53,8 +55,6 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
-
-    implementation("io.insert-koin:koin-core:$koin_version")
 
     implementation("net.kyori:adventure-api:4.12.0")
 

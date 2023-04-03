@@ -12,8 +12,6 @@ version = "0.0.5"
 
 dependencies {
     implementation("io.github.slaxnetwork:kyouko-wrapper:$kyouko_wrapper_version")
-
-    compileOnly("io.insert-koin:koin-core:$koin_version")
 }
 
 java {

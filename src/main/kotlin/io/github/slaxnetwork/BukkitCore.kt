@@ -6,6 +6,7 @@ import io.github.slaxnetwork.bukkitcore.icon.IconRegistry
 import io.github.slaxnetwork.icon.IconRegistryImpl
 import com.github.shynixn.mccoroutine.bukkit.setSuspendingExecutor
 import io.github.slaxnetwork.bukkitcore.BukkitCoreAPI
+import io.github.slaxnetwork.bukkitcore.koin.BukkitCoreKoinContext
 import io.github.slaxnetwork.commands.player.LanguageCommand
 import io.github.slaxnetwork.bukkitcore.language.LanguageProvider
 import io.github.slaxnetwork.language.LanguageProviderImpl
@@ -16,6 +17,7 @@ import io.github.slaxnetwork.profile.ProfileRegistryImpl
 import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import io.github.slaxnetwork.bukkitcore.rank.RankRegistry
 import io.github.slaxnetwork.bukkitcore.scoreboard.ScoreboardManager
+import io.github.slaxnetwork.koin.LibraryKoinContext
 import io.github.slaxnetwork.rank.RankRegistryImpl
 import io.github.slaxnetwork.scoreboard.ScoreboardManagerImpl
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -24,6 +26,7 @@ import org.bukkit.plugin.ServicePriority
 import org.koin.core.KoinApplication
 import org.koin.core.context.GlobalContext
 import org.koin.core.context.startKoin
+import org.koin.dsl.bind
 import org.koin.dsl.module
 import java.io.File
 
@@ -69,18 +72,12 @@ class BukkitCore : SuspendingJavaPlugin() {
         mm = SlaxMiniMessageBuilderImpl(iconRegistry, languageProvider)
             .createInstance()
 
-        val koin = initializeKoin()
-        Bukkit.getServicesManager().register(
-            KoinApplication::class.java,
-            koin,
-            this,
-            ServicePriority.Normal
-        )
+        initializeKoin()
 
         getCommand("language")?.setSuspendingExecutor(LanguageCommand(profileRegistry, languageProvider))
 
         setOf(
-            AsyncPlayerChatListener(profileRegistry),
+            AsyncPlayerChatListener(),
             PlayerLoginListener(profileRegistry),
             PlayerQuitListener(profileRegistry, scoreboardManager)
         ).forEach { server.pluginManager.registerSuspendingEvents(it, this) }
@@ -90,26 +87,25 @@ class BukkitCore : SuspendingJavaPlugin() {
         GlobalContext.stopKoin()
     }
 
-    private fun initializeKoin(): KoinApplication {
-        val dataModule = module {
+    private fun initializeKoin() {
+        val exposedModules = module {
             single { profileRegistry }
-        }
-
-        val managerModule = module {
             single { scoreboardManager }
+            single<BukkitCoreAPI> { BukkitCoreAPIImpl(profileRegistry, iconRegistry, languageProvider) }
         }
 
         val appModule = module {
-            includes(dataModule, managerModule)
-
-            single<BukkitCoreAPI> {
-                BukkitCoreAPIImpl(profileRegistry, iconRegistry, languageProvider)
-            }
+            includes(exposedModules)
         }
 
-        return startKoin {
-            modules(appModule)
-        }
+        Bukkit.getServicesManager().register(
+            BukkitCoreKoinContext::class.java,
+            BukkitCoreKoinContext(exposedModules),
+            this,
+            ServicePriority.Normal
+        )
+
+        LibraryKoinContext.initialize(appModule)
     }
 }
 
