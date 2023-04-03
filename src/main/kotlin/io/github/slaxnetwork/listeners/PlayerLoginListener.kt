@@ -9,11 +9,13 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 import org.bukkit.event.player.PlayerLoginEvent
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 import java.util.UUID
 
-class PlayerLoginListener(
-    private val profileRegistry: ProfileRegistry
-) : Listener {
+class PlayerLoginListener : Listener, KoinComponent {
+    private val profileRegistry: ProfileRegistry = get()
+
     private val pendingConnections = mutableMapOf<UUID, Profile>()
 
     @EventHandler
