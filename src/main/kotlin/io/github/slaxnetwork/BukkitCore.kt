@@ -23,10 +23,8 @@ import io.github.slaxnetwork.scoreboard.ScoreboardManagerImpl
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.plugin.ServicePriority
-import org.koin.core.KoinApplication
 import org.koin.core.context.GlobalContext
-import org.koin.core.context.startKoin
-import org.koin.dsl.bind
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import java.io.File
 
@@ -69,17 +67,17 @@ class BukkitCore : SuspendingJavaPlugin() {
 
         scoreboardManager = ScoreboardManagerImpl(server.scheduler)
 
-        mm = SlaxMiniMessageBuilderImpl(iconRegistry, languageProvider)
+        mm = SlaxMiniMessageBuilderImpl()
             .createInstance()
 
         initializeKoin()
 
-        getCommand("language")?.setSuspendingExecutor(LanguageCommand(profileRegistry, languageProvider))
+        getCommand("language")?.setSuspendingExecutor(LanguageCommand())
 
         setOf(
             AsyncPlayerChatListener(),
-            PlayerLoginListener(profileRegistry),
-            PlayerQuitListener(profileRegistry, scoreboardManager)
+            PlayerLoginListener(),
+            PlayerQuitListener()
         ).forEach { server.pluginManager.registerSuspendingEvents(it, this) }
     }
 
@@ -88,16 +86,24 @@ class BukkitCore : SuspendingJavaPlugin() {
     }
 
     private fun initializeKoin() {
+        val dataModule = module {
+            single { languageProvider }
+            single { iconRegistry }
+            single { rankRegistry }
+        }
+
         val exposedModules = module {
-            single { profileRegistry }
-            single { scoreboardManager }
-            single<BukkitCoreAPI> { BukkitCoreAPIImpl(profileRegistry, iconRegistry, languageProvider) }
+            singleOf<ProfileRegistry>(::ProfileRegistryImpl)
+            single<ScoreboardManager> { ScoreboardManagerImpl(server.scheduler) }
+
+            singleOf<BukkitCoreAPI>(::BukkitCoreAPIImpl)
         }
 
         val appModule = module {
-            includes(exposedModules)
+            includes(dataModule, exposedModules)
         }
 
+        // expose needed modules.
         Bukkit.getServicesManager().register(
             BukkitCoreKoinContext::class.java,
             BukkitCoreKoinContext(exposedModules),
