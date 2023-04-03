@@ -7,6 +7,7 @@ import io.github.slaxnetwork.bukkitcore.minimessage.tags.LanguageTags
 import io.github.slaxnetwork.mm
 import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import io.github.slaxnetwork.bukkitcore.utils.get
+import io.github.slaxnetwork.koin.LibraryKoinComponent
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -14,7 +15,7 @@ import org.bukkit.entity.Player
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
-class LanguageCommand : SuspendingCommandExecutor, KoinComponent {
+class LanguageCommand : SuspendingCommandExecutor, LibraryKoinComponent {
     private val profileRegistry: ProfileRegistry = get()
     private val languageProvider: LanguageProvider = get()
 

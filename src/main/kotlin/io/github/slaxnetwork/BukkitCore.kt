@@ -67,10 +67,10 @@ class BukkitCore : SuspendingJavaPlugin() {
 
         scoreboardManager = ScoreboardManagerImpl(server.scheduler)
 
+        initializeKoin()
+
         mm = SlaxMiniMessageBuilderImpl()
             .createInstance()
-
-        initializeKoin()
 
         getCommand("language")?.setSuspendingExecutor(LanguageCommand())
 

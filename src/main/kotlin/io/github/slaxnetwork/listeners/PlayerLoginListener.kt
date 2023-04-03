@@ -4,6 +4,7 @@ import io.github.slaxnetwork.kyouko.models.profile.Profile
 import io.github.slaxnetwork.kyouko.services.v1.ProfileService
 import io.github.slaxnetwork.mm
 import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
+import io.github.slaxnetwork.koin.LibraryKoinComponent
 import kotlinx.coroutines.runBlocking
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -13,7 +14,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import java.util.UUID
 
-class PlayerLoginListener : Listener, KoinComponent {
+class PlayerLoginListener : Listener, LibraryKoinComponent {
     private val profileRegistry: ProfileRegistry = get()
 
     private val pendingConnections = mutableMapOf<UUID, Profile>()
