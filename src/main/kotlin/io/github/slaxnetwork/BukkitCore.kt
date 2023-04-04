@@ -17,57 +17,43 @@ import io.github.slaxnetwork.profile.ProfileRegistryImpl
 import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import io.github.slaxnetwork.bukkitcore.rank.RankRegistry
 import io.github.slaxnetwork.bukkitcore.scoreboard.ScoreboardManager
+import io.github.slaxnetwork.koin.LibraryKoinComponent
 import io.github.slaxnetwork.koin.LibraryKoinContext
 import io.github.slaxnetwork.rank.RankRegistryImpl
 import io.github.slaxnetwork.scoreboard.ScoreboardManagerImpl
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.plugin.ServicePriority
+import org.koin.core.component.inject
 import org.koin.core.context.GlobalContext
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 import java.io.File
 
-class BukkitCore : SuspendingJavaPlugin() {
-    lateinit var profileRegistry: ProfileRegistry
-        private set
-
-    lateinit var rankRegistry: RankRegistry
-        private set
-
-    lateinit var iconRegistry: IconRegistry
-        private set
-
-    lateinit var languageProvider: LanguageProvider
-        private set
-
-    lateinit var scoreboardManager: ScoreboardManager
-        private set
-
+class BukkitCore : SuspendingJavaPlugin(), LibraryKoinComponent {
     override suspend fun onLoadAsync() {
+        LibraryKoinContext.initialize(this, server.scheduler)
     }
 
     override suspend fun onEnableAsync() {
-        rankRegistry = RankRegistryImpl()
-        profileRegistry = ProfileRegistryImpl()
-        iconRegistry = IconRegistryImpl(File(server.worldContainer, "icons/icons.json"))
+        val rankRegistry by inject<RankRegistry>()
+        val iconRegistry: IconRegistry by inject {
+            parametersOf(File(server.worldContainer, "icons/icons.json"))
+        }
+        val languageProvider by inject<LanguageProvider>()
 
         try {
             rankRegistry.initialize()
             iconRegistry.initialize()
+
+            languageProvider.register()
         } catch(ex: Exception) {
             ex.printStackTrace()
 
             server.shutdown()
             return
         }
-
-        languageProvider = LanguageProviderImpl()
-        languageProvider.register()
-
-        scoreboardManager = ScoreboardManagerImpl(server.scheduler)
-
-        initializeKoin()
 
         mm = SlaxMiniMessageBuilderImpl()
             .createInstance()
@@ -82,36 +68,7 @@ class BukkitCore : SuspendingJavaPlugin() {
     }
 
     override suspend fun onDisableAsync() {
-        GlobalContext.stopKoin()
-    }
-
-    private fun initializeKoin() {
-        val dataModule = module {
-            single { languageProvider }
-            single { iconRegistry }
-            single { rankRegistry }
-        }
-
-        val exposedModules = module {
-            singleOf<ProfileRegistry>(::ProfileRegistryImpl)
-            single<ScoreboardManager> { ScoreboardManagerImpl(server.scheduler) }
-
-            singleOf<BukkitCoreAPI>(::BukkitCoreAPIImpl)
-        }
-
-        val appModule = module {
-            includes(dataModule, exposedModules)
-        }
-
-        // expose needed modules.
-        Bukkit.getServicesManager().register(
-            BukkitCoreKoinContext::class.java,
-            BukkitCoreKoinContext(exposedModules),
-            this,
-            ServicePriority.Normal
-        )
-
-        LibraryKoinContext.initialize(appModule)
+        LibraryKoinContext.koinApplication.close()
     }
 }
 
