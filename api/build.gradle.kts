@@ -1,4 +1,5 @@
 val kyouko_wrapper_version: String by project
+val koin_version: String by project
 
 plugins {
     `maven-publish`
@@ -7,7 +8,7 @@ plugins {
 val githubActor = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
 val githubToken = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
 
-version = "0.0.4"
+version = "0.0.6"
 
 dependencies {
     implementation("io.github.slaxnetwork:kyouko-wrapper:$kyouko_wrapper_version")

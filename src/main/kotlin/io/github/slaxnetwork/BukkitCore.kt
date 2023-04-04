@@ -6,6 +6,7 @@ import io.github.slaxnetwork.bukkitcore.icon.IconRegistry
 import io.github.slaxnetwork.icon.IconRegistryImpl
 import com.github.shynixn.mccoroutine.bukkit.setSuspendingExecutor
 import io.github.slaxnetwork.bukkitcore.BukkitCoreAPI
+import io.github.slaxnetwork.bukkitcore.koin.BukkitCoreKoinContext
 import io.github.slaxnetwork.commands.player.LanguageCommand
 import io.github.slaxnetwork.bukkitcore.language.LanguageProvider
 import io.github.slaxnetwork.language.LanguageProviderImpl
@@ -16,78 +17,58 @@ import io.github.slaxnetwork.profile.ProfileRegistryImpl
 import io.github.slaxnetwork.bukkitcore.profile.ProfileRegistry
 import io.github.slaxnetwork.bukkitcore.rank.RankRegistry
 import io.github.slaxnetwork.bukkitcore.scoreboard.ScoreboardManager
+import io.github.slaxnetwork.koin.LibraryKoinComponent
+import io.github.slaxnetwork.koin.LibraryKoinContext
 import io.github.slaxnetwork.rank.RankRegistryImpl
 import io.github.slaxnetwork.scoreboard.ScoreboardManagerImpl
 import net.kyori.adventure.text.minimessage.MiniMessage
+import org.bukkit.Bukkit
 import org.bukkit.plugin.ServicePriority
+import org.koin.core.component.inject
+import org.koin.core.context.GlobalContext
+import org.koin.core.module.dsl.singleOf
+import org.koin.core.parameter.parametersOf
+import org.koin.dsl.module
 import java.io.File
 
-class BukkitCore : SuspendingJavaPlugin() {
-    lateinit var profileRegistry: ProfileRegistry
-        private set
-
-    lateinit var rankRegistry: RankRegistry
-        private set
-
-    lateinit var iconRegistry: IconRegistry
-        private set
-
-    lateinit var languageProvider: LanguageProvider
-        private set
-
-    lateinit var scoreboardManager: ScoreboardManager
-        private set
-
+class BukkitCore : SuspendingJavaPlugin(), LibraryKoinComponent {
     override suspend fun onLoadAsync() {
+        LibraryKoinContext.initialize(this, server.scheduler)
     }
 
     override suspend fun onEnableAsync() {
-        rankRegistry = RankRegistryImpl()
-        profileRegistry = ProfileRegistryImpl()
-        iconRegistry = IconRegistryImpl(File(server.worldContainer, "icons/icons.json"))
+        val rankRegistry by inject<RankRegistry>()
+        val iconRegistry: IconRegistry by inject {
+            parametersOf(File(server.worldContainer, "icons/icons.json"))
+        }
+        val languageProvider by inject<LanguageProvider>()
 
         try {
             rankRegistry.initialize()
             iconRegistry.initialize()
+
+            languageProvider.register()
         } catch(ex: Exception) {
-            logger.severe("Unable to initialize a service.")
             ex.printStackTrace()
+
             server.shutdown()
             return
         }
 
-        languageProvider = LanguageProviderImpl()
-        languageProvider.register()
-
-        mm = SlaxMiniMessageBuilderImpl(iconRegistry, languageProvider)
+        mm = SlaxMiniMessageBuilderImpl()
             .createInstance()
 
-        scoreboardManager = ScoreboardManagerImpl(server.scheduler)
-
-        server.servicesManager.register(
-            BukkitCoreAPI::class.java,
-            BukkitCoreAPIImpl(profileRegistry, iconRegistry, languageProvider),
-            this,
-            ServicePriority.Normal
-        )
-
-        server.servicesManager.register(
-            ScoreboardManager::class.java,
-            scoreboardManager,
-            this,
-            ServicePriority.Normal
-        )
-
-        getCommand("language")?.setSuspendingExecutor(LanguageCommand(profileRegistry, languageProvider))
+        getCommand("language")?.setSuspendingExecutor(LanguageCommand())
 
         setOf(
-            AsyncPlayerChatListener(profileRegistry),
-            PlayerLoginListener(profileRegistry),
-            PlayerQuitListener(profileRegistry, scoreboardManager)
+            AsyncPlayerChatListener(),
+            PlayerLoginListener(),
+            PlayerQuitListener()
         ).forEach { server.pluginManager.registerSuspendingEvents(it, this) }
     }
 
     override suspend fun onDisableAsync() {
+        LibraryKoinContext.koinApplication.close()
     }
 }
 
